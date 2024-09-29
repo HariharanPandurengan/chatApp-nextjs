@@ -16,6 +16,7 @@ export async function POST(req){
             const user = new UserModel({
                 username: registerDetails.username,
                 password: registerDetails.password,
+                groups:[]
               });
           
             const savedUser = await user.save();

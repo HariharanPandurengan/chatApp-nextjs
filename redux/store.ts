@@ -4,12 +4,23 @@ interface UserState {
   login: boolean;
   username: string;
   oppositeUsername : string
+  groupName:string,
+  groupID:string,
+  groupOppositeUsers:string[]
+}
+
+interface GroupPayload {
+  groupID: string;
+  groupName: string;
 }
 
 const initialState: UserState = {
   login: false,
   username: '',
   oppositeUsername:'',
+  groupName:'',
+  groupID:'',
+  groupOppositeUsers:[]
 };
 
 const userSlice = createSlice({
@@ -25,11 +36,15 @@ const userSlice = createSlice({
     reduxOppositeUsername: (state,action: PayloadAction<string>) => {
       state.oppositeUsername = action.payload;
     },
+    reduxGroupIDandName: (state,action: PayloadAction<GroupPayload>) => {
+      state.groupID = action.payload.groupID;
+      state.groupName = action.payload.groupName;
+    },
   },
 });
 
 //userSlice functions - useDispatch()
-export const { reduxLogin , reduxUsername ,reduxOppositeUsername } =
+export const { reduxLogin , reduxUsername ,reduxOppositeUsername ,reduxGroupIDandName} =
   userSlice.actions;
 
 //useSelector()

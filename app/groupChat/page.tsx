@@ -1,37 +1,25 @@
 "use client"
-import React from 'react';
-import Image from "next/image";
+
+import React, { useEffect , useState , useRef } from 'react';
 import { RootState } from '../../redux/store';
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
 import axios from 'axios';
-import { useEffect , useRef } from 'react';
 import io from 'socket.io-client';
+import Image from "next/image";
 
 let socket;
 
-export default function Chat() {
-    const[chat,setChat] = useState([]);
-    const[recentChat,setRecentChat] = useState("")
-    const user = useSelector((state: RootState) => state.user.username);
-    const opposite_person =  useSelector((state: RootState) => state.user.oppositeUsername);
-    
-    const chatContainerRef = useRef(null);
+export default function GroupChat() {
 
-    function getChat(){
-      axios
-        .get(process.env.NEXT_PUBLIC_API_URL + "/chat", {
-            params: { user: user,opposite_person:opposite_person },
-          })
-        .then((response) => {
-          if(response.data.status === true){
-            setChat(response.data.chat)
-          }
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
-    }
+    const[chatList,setChatList] = useState([]);
+    const[recentChat,setRecentChat] = useState("");
+    const[groupMembers,setGroupMembers] = useState([])
+
+    const groupID = useSelector((state: RootState) => state.user.groupID);
+    const groupName = useSelector((state: RootState) => state.user.groupName);
+    const user = useSelector((state: RootState) => state.user.username);
+
+    const chatContainerRef = useRef(null);
 
     useEffect(()=>{
         getChat();
@@ -39,84 +27,105 @@ export default function Chat() {
     },[])
 
     useEffect(()=>{
-      if (chatContainerRef.current) {
-        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-      }
-    },[chat])
+        if (chatContainerRef.current) {
+          chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        }
+    },[chatList])
 
     function socketInitializer(){
-      socket = io('http://localhost:4000');
-  
-      socket.emit('register', user);
-  
-      socket.on('notification', (data:any) => {
-        if(data.message.includes("Your request has been accepted by") || data.message.includes("You has been removed from friend list by")){
-          alert(data.message)
-        }
-        else if(data.for === "new chat"){
-          getChat();
-          if(data.from !== opposite_person){
-            alert(data.from +' : '+ data.message)
+        socket = io('http://localhost:4000');
+    
+        socket.emit('register', user);
+    
+        socket.on('notification', (data:any) => {
+          if(data.message.includes("Your request has been accepted by") || data.message.includes("You has been removed from friend list by")){
+            alert(data.message)
           }
-        }
-      });
+          else if(data.for === "new chat"){
+            // getChat();
+          }
+          else if(data.for === "group chat"){
+            getChat();
+          }
+        });
+      }
+
+    function getChat(){
+        axios
+        .get(process.env.NEXT_PUBLIC_API_URL + "/getGroupChat", {
+        params: { groupID: groupID , groupName:groupName},
+        })
+        .then((response) => {
+            setChatList(response.data.group.chat);
+
+            const arr = [];
+            arr.push(...response.data.group.members.filter(item => item !== user));
+            arr.push(...response.data.group.admin.filter(item => item !== user));
+            setGroupMembers(arr)
+        })
+        .catch((err) => {
+        console.log(err.message);
+        });
     }
 
     function sendMessage(e){
-      e.preventDefault();
-      const postChat = {
-          id:0,
-          from : user,
-          chat : recentChat,
-          mTime : '',
-          mDate : ''
-      }
-
-      axios
-        .post(process.env.NEXT_PUBLIC_API_URL+'/chat',{user:user,oppositeUser:opposite_person,chat:postChat})
-        .then((response) => {
-          if(response.data.status === true){
-
-            socket.emit('chat', {
-              recipient: opposite_person,
-              currentUser: user,
-              message:recentChat
-            });
-
-            getChat();
-            setRecentChat("")
-          }
-        })
-        .catch((err) => {
-          console.log(err.message);
-      });
+        e.preventDefault();
+        const postChat = {
+            id:0,
+            from : user,
+            chat : recentChat,
+            mTime : '',
+            mDate : ''
+        }
+  
+        axios
+          .post(process.env.NEXT_PUBLIC_API_URL+'/getGroupChat',{groupInfo : {groupID:groupID,groupName:groupName,chat:postChat}})
+          .then((response) => {
+            if(response.data.status === true){
+  
+              socket.emit('group_chat', {
+                groupID: groupID,
+                groupName:groupName,
+                recipients:groupMembers,
+                currentUser: user,
+                message:recentChat
+              });
+  
+              getChat();
+              setRecentChat("")
+            }
+          })
+          .catch((err) => {
+            console.log(err.message);
+        });
     }
+
     return(
         <div className="w-full bg-gradient-to-b from-yellow-200 to-white-100  min-h-screen pt-1">
             <div className="relative chat-div">
                 <div className="sticky top-0 left-0 w-full flex items-center space-x-4 p-4 bg-gray-300 rounded mb-4">
                     <div className="w-12 h-12 rounded-full overflow-hidden">
                         <Image 
-                            src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-social-media-user-vector-default-avatar-profile-icon-social-media-user-vector-portrait-176194876.jpg" 
+                            src="https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-group-icon-png-image_1796653.jpg" 
                             alt="Profile Avatar"
                             width={48}
                             height={48}
                         />
                     </div>
-                    <h2 className="text-lg font-medium">{opposite_person}</h2>
+                    <h2 className="text-lg font-medium">{groupName}</h2>
                 </div>
             
                 <div className="chat-container" ref={chatContainerRef}>
                     {
-                       chat.length !== 0 && 
-                          chat.map((item) => {
+                       chatList.length !== 0 && 
+                       chatList.map((item) => {
                             const messageContent = item.chat;
                             const isSent = (item.from === user);
                             return (
                                 <div key={item.id}> 
                                     {
                                         isSent ? 
-                                        <div className="w-full flex justify-end items-center w-full">
+                                        <div className="w-full flex justify-end items-center">
                                             {/* <small className="text-xs font-light">you</small> */}
                                             <div key={item.id} className='message message-sent ms-2'>
                                                 <p className="text-xl font-medium">{messageContent}<small className="text-xs font-light ms-2">{item.mTime}</small></p>
@@ -125,6 +134,7 @@ export default function Chat() {
                                         :
                                         <div className="w-full flex justify-start items-center">
                                             <div key={item.id} className='message message-received  ms-2'>
+                                                <small className='underline'>{item.from}</small>
                                                 <p className="text-xl font-medium">{messageContent}<small className="text-xs font-light ms-2">{item.mTime}</small></p>
                                             </div>
                                             {/* <small className="text-xs font-light ms-2">{opposite_person}</small> */}
@@ -142,6 +152,6 @@ export default function Chat() {
                     </div>
                 </div>
             </div>
-        </div>       
-    )
+        </div>
+    );
 }
