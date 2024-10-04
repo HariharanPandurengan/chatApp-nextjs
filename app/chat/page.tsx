@@ -20,7 +20,7 @@ export default function Chat() {
 
     function getChat(){
       axios
-        .get(process.env.NEXT_PUBLIC_API_URL + "/chat", {
+        .get("/api/chat", {
             params: { user: user,opposite_person:opposite_person },
           })
         .then((response) => {
@@ -73,7 +73,7 @@ export default function Chat() {
       }
 
       axios
-        .post(process.env.NEXT_PUBLIC_API_URL+'/chat',{user:user,oppositeUser:opposite_person,chat:postChat})
+        .post('/api/chat',{user:user,oppositeUser:opposite_person,chat:postChat})
         .then((response) => {
           if(response.data.status === true){
 

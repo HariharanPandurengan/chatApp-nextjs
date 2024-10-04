@@ -37,7 +37,7 @@ export default function Login() {
   function register(e){
     e.preventDefault();
     axios
-      .post(process.env.NEXT_PUBLIC_API_URL+'/register',{username:username,password:password})
+      .post('/api/register',{username:username,password:password})
       .then((response) => {
         if(response.data.status === false){
           alert('Username Already Exist');

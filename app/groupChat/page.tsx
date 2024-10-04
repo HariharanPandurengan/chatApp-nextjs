@@ -56,7 +56,7 @@ export default function GroupChat() {
 
     function getChat(){
         axios
-        .get(process.env.NEXT_PUBLIC_API_URL + "/getGroupChat", {
+        .get("/api/getGroupChat", {
         params: { groupID: groupID , groupName:groupName},
         })
         .then((response) => {
@@ -83,7 +83,7 @@ export default function GroupChat() {
         }
   
         axios
-          .post(process.env.NEXT_PUBLIC_API_URL+'/getGroupChat',{groupInfo : {groupID:groupID,groupName:groupName,chat:postChat}})
+          .post('/api/getGroupChat',{groupInfo : {groupID:groupID,groupName:groupName,chat:postChat}})
           .then((response) => {
             if(response.data.status === true){
   
@@ -107,7 +107,7 @@ export default function GroupChat() {
     function deleteGroup(e){
         e.preventDefault();
         axios
-          .post(process.env.NEXT_PUBLIC_API_URL+'/getGroupChat',{groupInfo : {groupID:groupID,groupName:groupName,members:groupMembers,currentUser:user}})
+          .post('/api/getGroupChat',{groupInfo : {groupID:groupID,groupName:groupName,members:groupMembers,currentUser:user}})
           .then((response) => {
             if(response.data.status === true){
                 router.push("chat-list")

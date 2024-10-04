@@ -113,7 +113,7 @@ export default function ChatList() {
 
   const fetchRequestedList = () => {
     axios
-      .get(process.env.NEXT_PUBLIC_API_URL + "/requests", {
+      .get("/api/requests", {
         params: { username: currentUsername },
       })
       .then((response) => {
@@ -126,7 +126,7 @@ export default function ChatList() {
 
   const fetchRequestsList = () => {
     axios
-    .get(process.env.NEXT_PUBLIC_API_URL + "/getRequests", {
+    .get("/api/getRequests", {
       params: { username: currentUsername },
     })
     .then((response) => {
@@ -139,7 +139,7 @@ export default function ChatList() {
 
   const fetchFriendsList = () => {
     axios
-    .get(process.env.NEXT_PUBLIC_API_URL + "/getFriends", {
+    .get("/api/getFriends", {
       params: { username: currentUsername },
     })
     .then((response) => {
@@ -165,7 +165,7 @@ export default function ChatList() {
 
   const fetchGroups = () => {
     axios
-    .get(process.env.NEXT_PUBLIC_API_URL + "/groupChat", {
+    .get("/api/groupChat", {
       params: { username: currentUsername },
     })
     .then((response) => {
@@ -183,7 +183,7 @@ export default function ChatList() {
     }
     else{
       axios
-      .post(process.env.NEXT_PUBLIC_API_URL + "/groupChat", {
+      .post("/api/groupChat", {
         group : {
           name:groupName,
           members:newGroupMembers,
@@ -247,7 +247,7 @@ export default function ChatList() {
    useEffect(() =>  {
     if(searchUsername !== ''){
         axios
-        .get(process.env.NEXT_PUBLIC_API_URL+'/searchUser',{
+        .get('/api/searchUser',{
           params: { username: searchUsername }
         })
         .then((response) => {
@@ -275,7 +275,7 @@ export default function ChatList() {
     function sendReq(e,clickedUsername){
         e.preventDefault()
         axios
-        .post(process.env.NEXT_PUBLIC_API_URL+'/requests',{clickedUsername:clickedUsername,RequestedUsername:currentUsername})
+        .post('/api/requests',{clickedUsername:clickedUsername,RequestedUsername:currentUsername})
         .then((response) => {
           if(response.data.status === true){
             alert('Requested Successfully')
@@ -297,7 +297,7 @@ export default function ChatList() {
       e.preventDefault()
 
       axios
-        .post(process.env.NEXT_PUBLIC_API_URL+'/acceptReq',{requestedUsername:clickedUsername,currentUsername:currentUsername})
+        .post('/api/acceptReq',{requestedUsername:clickedUsername,currentUsername:currentUsername})
         .then((response) => {
           if(response.data.status === true){
             alert('Accepted Successfully')
@@ -321,7 +321,7 @@ export default function ChatList() {
       e.preventDefault()
 
       axios
-        .post(process.env.NEXT_PUBLIC_API_URL+'/removeFriend',{clickedUsername:clickedUsername,currentUsername:currentUsername})
+        .post('/api/removeFriend',{clickedUsername:clickedUsername,currentUsername:currentUsername})
         .then((response) => {
           if(response.data.status === true){
             alert('unfriend Successfully')
