@@ -2,7 +2,6 @@ import connectMongo from "../../../utils/connectMongo";
 import ReqModel from "../../../models/requestModel";
 
 export async function GET(req,res){
-    res.setHeader('Access-Control-Allow-Origin', '*'); 
     
     try {
         await connectMongo();

@@ -6,6 +6,16 @@ const nextConfig = {
     },
     experimental: {
         serverComponentsExternalPackages: ['socket.io'],
+    },
+    async headers(){
+        return[
+            {
+                headers: [
+                    { Key: 'Access-Control-Allow-Credentials', value: 'true' },
+                    { Key: 'Access-Control-Allow-Origin', value: '*'}
+                ]
+            }
+        ]
     }
 }
 
