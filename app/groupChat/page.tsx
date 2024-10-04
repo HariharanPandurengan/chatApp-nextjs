@@ -37,7 +37,7 @@ export default function GroupChat() {
     },[chatList])
 
     function socketInitializer(){
-        socket = io('http://localhost:4000');
+        socket = io('https://chatapp-socketio-lhgx.onrender.com/');
     
         socket.emit('register', user);
     
