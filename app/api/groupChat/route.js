@@ -4,9 +4,9 @@ import UserModel from "../../../models/userModel";
 import { v4 as uuidv4 } from 'uuid';
 
 export async function POST(req,res){
-    res.setHeader('Access-Control-Allow-Origin', '*'); // You can specify the exact domain instead of '*'
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Origin', '*'); 
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     try {
         await connectMongo();
         const { group } = await req.json();
