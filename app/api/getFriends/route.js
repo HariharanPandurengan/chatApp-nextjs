@@ -13,8 +13,8 @@ import FriendsModel from "../../../models/friendsModel"
     
         const Friends = await FriendsModel.find({
             $or: [
-              { user1: username },
-              { user2: username }
+              {user1: username},
+              {user2: username}
             ]
           })
         return Response.json({ status: true , friends : Friends});
