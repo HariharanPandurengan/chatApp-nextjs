@@ -18,7 +18,7 @@ export default function Login() {
   function login(e){
     e.preventDefault();
    axios
-      .post(process.env.NEXT_PUBLIC_API_URL+'/login',{username:username,password:password})
+      .post('/api/login',{username:username,password:password})
       .then((response) => {
         if(response.data.status){
           dispatch(reduxLogin(true));
