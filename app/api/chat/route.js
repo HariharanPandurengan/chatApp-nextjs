@@ -1,7 +1,7 @@
 import connectMongo from "../../../utils/connectMongo";
 import ChatModel from "../../../models/chatModel"
 
-export async function POST(req){
+export async function POST(req,res){
     if (req.method !== 'POST') {
         res.setHeader('Allow', ['POST']);
         res.status(405).end(`Method ${req.method} Not Allowed`);
