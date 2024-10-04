@@ -10,13 +10,15 @@ const nextConfig = {
     async headers(){
         return[
             {
+                // Apply these headers to all API routes
                 source: "/api/(.*)",
                 headers: [
-                    { Key: 'Access-Control-Allow-Credentials', value: 'true' },
-                    { Key: 'Access-Control-Allow-Origin', value: '*'},
-                    { key: 'Access-Control-Allow-Method', value: 'GET,OPTIONS,PATCH,DELETE,POST,PUT'}
-                ]
-            }
+                    { key: 'Access-Control-Allow-Credentials', value: 'true' },
+                    { key: 'Access-Control-Allow-Origin', value: '*' }, // You can replace '*' with your specific frontend domain
+                    { key: 'Access-Control-Allow-Methods', value: 'GET,POST,OPTIONS' },
+                    { key: 'Access-Control-Allow-Headers', value: 'Content-Type, Authorization' },
+                ],
+            },
         ]
     }
 }
