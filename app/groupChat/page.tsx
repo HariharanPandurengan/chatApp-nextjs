@@ -3,6 +3,7 @@
 import React, { useEffect , useState , useRef } from 'react';
 import { RootState } from '../../redux/store';
 import { useSelector } from 'react-redux';
+import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import io from 'socket.io-client';
 import Image from "next/image";
@@ -11,9 +12,12 @@ let socket;
 
 export default function GroupChat() {
 
+    const router = useRouter();
+
     const[chatList,setChatList] = useState([]);
     const[recentChat,setRecentChat] = useState("");
     const[groupMembers,setGroupMembers] = useState([])
+    const[info,setInfo] = useState([])
 
     const groupID = useSelector((state: RootState) => state.user.groupID);
     const groupName = useSelector((state: RootState) => state.user.groupName);
@@ -48,7 +52,7 @@ export default function GroupChat() {
             getChat();
           }
         });
-      }
+    }
 
     function getChat(){
         axios
@@ -93,6 +97,20 @@ export default function GroupChat() {
   
               getChat();
               setRecentChat("")
+            }
+          })
+          .catch((err) => {
+            console.log(err.message);
+        });
+    }
+
+    function deleteGroup(e){
+        e.preventDefault();
+        axios
+          .post(process.env.NEXT_PUBLIC_API_URL+'/getGroupChat',{groupInfo : {groupID:groupID,groupName:groupName,members:groupMembers,currentUser:user}})
+          .then((response) => {
+            if(response.data.status === true){
+                router.push("chat-list")
             }
           })
           .catch((err) => {
