@@ -2,6 +2,10 @@ import connectMongo from "../../../utils/connectMongo";
 import ChatModel from "../../../models/chatModel"
 
 export async function POST(req){
+    if (req.method !== 'POST') {
+        res.setHeader('Allow', ['POST']);
+        res.status(405).end(`Method ${req.method} Not Allowed`);
+    }
     try {
         await connectMongo();
         const users = await req.json();
