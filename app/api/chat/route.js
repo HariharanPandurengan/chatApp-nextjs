@@ -2,10 +2,9 @@ import connectMongo from "../../../utils/connectMongo";
 import ChatModel from "../../../models/chatModel"
 
 export async function POST(req,res){
-    if (req.method !== 'POST') {
-        res.setHeader('Allow', ['POST']);
-        res.status(405).end(`Method ${req.method} Not Allowed`);
-    }
+    res.setHeader('Access-Control-Allow-Origin', '*'); // You can specify the exact domain instead of '*'
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     try {
         await connectMongo();
         const users = await req.json();
