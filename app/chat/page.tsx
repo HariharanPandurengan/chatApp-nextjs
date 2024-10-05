@@ -106,7 +106,7 @@ export default function Chat() {
                     <h2 className="text-lg font-medium">{opposite_person}</h2>
                 </div>
             
-                <div className="chat-container" ref={chatContainerRef}>
+                <div className="chat-container z-50" ref={chatContainerRef}>
                     {
                        chat.length !== 0 && 
                           chat.map((item) => {
@@ -137,7 +137,7 @@ export default function Chat() {
                 </div>
                 <div className="sticky bottom-0 w-full shadow">
                     <div className="relative">
-                        <input onChange={(e)=>setRecentChat(e.target.value)} value={recentChat} placeholder="Type you message" className="w-full rounded-full border-2 p-2"/>
+                        <input onChange={(e)=>setRecentChat(e.target.value)} value={recentChat} placeholder="Type you message" className="w-full rounded-full border-2 p-2 text-black"/>
                         <button onClick={(e)=>sendMessage(e)} className="absolute bottom-1 right-2 py-1 px-4 bg-green-600 text-white font-semibold rounded-full shadow-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out duration-200 w-1/7">Send</button>
                     </div>
                 </div>
