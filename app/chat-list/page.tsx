@@ -35,6 +35,7 @@ export default function ChatList() {
   const[searchGroupChatFriendlist,setSearchGroupChatFriendlist] = useState(groupChatFriendlist)
   const[groupChatCreation,setGroupChatCreation]=useState(false)
   const[newGroupMembers, setNewGroupMembers] = useState([]);
+  const[showReqCounter, setShowReqCounter] = useState(false);
 
   const currentUsername = useSelector((state: RootState) => state.user.username);
   // const currentUsername = 'hari';
@@ -137,6 +138,12 @@ export default function ChatList() {
     });
   };
 
+  useEffect(()=>{
+    if(requestsList.length !== 0){
+      setShowReqCounter(true)
+    }
+  },[requestsList])
+
   const fetchFriendsList = () => {
     axios
     .get("/api/getFriends", {
@@ -221,9 +228,12 @@ export default function ChatList() {
     socket.on('notification', (data:any) => {
       if((data.message && data.message.includes("Your request has been accepted by")) || (data.message && data.message.includes("You are removed from friend list by" )) || (data.message && data.message.includes("you have a new friend request" ))){
         setCurrentNotofication(data.message)
-        fetchRequestedList()
-        fetchRequestsList()
-        fetchFriendsList()
+        if(data.message && data.message.includes("Your request has been accepted by") || data.message && data.message.includes("You are removed from friend list by" )){
+          fetchFriendsList()
+        }
+        else if(data.message && data.message.includes("you have a new friend request" )){
+          fetchRequestsList()
+        }
         triggerNotification()
       }
       else if(data.for === "new chat"){
@@ -282,7 +292,6 @@ export default function ChatList() {
           if(response.data.status === true){
             alert('Requested Successfully')
             fetchRequestedList()
-            fetchRequestsList()
           }
         })
         .catch((err) => {
@@ -303,7 +312,6 @@ export default function ChatList() {
         .then((response) => {
           if(response.data.status === true){
             alert('Accepted Successfully')
-            fetchRequestedList()
             fetchRequestsList()
             fetchFriendsList()
           }
@@ -467,16 +475,16 @@ export default function ChatList() {
           }
         
           {/* request */}
-          <div className="absolute sm:right-5 sm:top-6 right-3 top-[19%] sm:top-2 sm:p-4 p-2 text-right sm:w-1/3 w-[50%] overflow-hidden">
+          <div className="absolute sm:right-5 sm:top-6 right-3 top-[15%] sm:top-2 sm:p-4 p-2 text-right sm:w-1/3 w-[50%] overflow-hidden">
           
-          <p className={requestsList.length !== 0 ? 'absolute right-0 top-0 px-1 sm:right-2 sm:top-1 border border-white z-30 text-xs text-white bg-red-500 rounded-full sm:px-2 sm:py-1' : 'hidden'}>{requestsList.length}</p>
-          <button className="text-xs sm:text-base bg-red-500 p-2 text-white rounded-full shadow-md hover:bg-red-600 transition transform hover:scale-105" onClick={() => {
-            setReq(true)
-            fetchRequestsList()
-            }}>
-            Requests
-          </button>
-          <div className={req ? 'relative border-2 border-gray-300 shadow-xl bg-white pt-1 w-full rounded-lg mt-2 px-2' : 'hidden'}>
+          {showReqCounter && <p className='absolute right-0 top-0 px-1 sm:right-2 sm:top-1 border border-white z-30 text-xs text-white bg-red-500 rounded-full sm:px-2 sm:py-1'>{requestsList.length}</p>}
+            <button className="text-xs sm:text-base bg-red-500 p-2 text-white rounded-full shadow-md hover:bg-red-600 transition transform hover:scale-105" onClick={() => {
+              setReq(true)
+              fetchRequestsList()
+              }}>
+              Requests
+            </button>
+            <div className={req ? 'relative border-2 border-gray-300 shadow-xl bg-white pt-1 w-full rounded-lg mt-2 px-2' : 'hidden'}>
               <button className=" top-2 right-2 bg-red-500 px-3 py-1 text-white rounded-full shadow-md hover:bg-red-600 transition" onClick={() => setReq(false)}>
                 ×
               </button>
