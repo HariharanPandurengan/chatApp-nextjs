@@ -36,23 +36,28 @@ export default function Login() {
 
   function register(e){
     e.preventDefault();
-    axios
-      .post('/api/register',{username:username,password:password})
-      .then((response) => {
-        if(response.data.status === false){
-          alert('Username Already Exist');
-        }
-        else{
-          alert('Registered Successfully');
-          setLog(true)
-          setUsername('')
-          setPassword('')
-          setConfirmPassword('')
-        }
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    if(password === confirmPassword){
+      alert('Password & Confirm password not matching')
+    }
+    else{
+      axios
+        .post('/api/register',{username:username,password:password})
+        .then((response) => {
+          if(response.data.status === false){
+            alert('Username Already Exist');
+          }
+          else{
+            alert('Registered Successfully');
+            setLog(true)
+            setUsername('')
+            setPassword('')
+            setConfirmPassword('')
+          }
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    }
   }
 
   return (
@@ -73,9 +78,9 @@ export default function Login() {
         <div className={log ? 'hidden' : ''}>
           <h2 className="text-2xl font-semibold text-center mb-4 text-gray-800">Register</h2>
           <form onSubmit={register} className="flex flex-col space-y-4">
-            <input onChange={(e)=>setUsername(e.target.value)} value={username} type="text" placeholder="Username" className="p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out duration-200"/>
-            <input onChange={(e)=>setPassword(e.target.value)} value={password} type="password" placeholder="Password" className="p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out duration-200"/>
-            <input onChange={(e)=>setConfirmPassword(e.target.value)} value={confirmPassword} type="password" placeholder="Confirm Password" className="p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out duration-200"/>
+            <input onChange={(e)=>setUsername(e.target.value)} value={username} type="text" placeholder="Username" className="p-3 text-black border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out duration-200"/>
+            <input onChange={(e)=>setPassword(e.target.value)} value={password} type="password" placeholder="Password" className="p-3 text-black border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out duration-200"/>
+            <input onChange={(e)=>setConfirmPassword(e.target.value)} value={confirmPassword} type="password" placeholder="Confirm Password" className="p-3 text-black border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out duration-200"/>
             <button type="submit" className="py-2 px-4 bg-blue-600 text-white font-semibold rounded-md shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out duration-200 w-full">Register</button>
           </form>
           <p className="text-center mt-4 text-gray-600 cursor-pointer hover:underline" onClick={() => setLog(true)}>Already have an account? Login</p>
