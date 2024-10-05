@@ -36,7 +36,7 @@ export default function Login() {
 
   function register(e){
     e.preventDefault();
-    if(password === confirmPassword){
+    if(password !== confirmPassword){
       alert('Password & Confirm password not matching')
     }
     else{
@@ -79,8 +79,8 @@ export default function Login() {
           <h2 className="text-2xl font-semibold text-center mb-4 text-gray-800">Register</h2>
           <form onSubmit={register} className="flex flex-col space-y-4">
             <input onChange={(e)=>setUsername(e.target.value)} value={username} type="text" placeholder="Username" className="p-3 text-black border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out duration-200"/>
-            <input onChange={(e)=>setPassword(e.target.value)} value={password} type="password" placeholder="Password" className="p-3 text-black border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out duration-200"/>
-            <input onChange={(e)=>setConfirmPassword(e.target.value)} value={confirmPassword} type="password" placeholder="Confirm Password" className="p-3 text-black border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out duration-200"/>
+            <input onChange={(e)=>setPassword(e.target.value)} value={password} type="text" placeholder="Password" className="p-3 text-black border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out duration-200"/>
+            <input onChange={(e)=>setConfirmPassword(e.target.value)} value={confirmPassword} type="text" placeholder="Confirm Password" className="p-3 text-black border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out duration-200"/>
             <button type="submit" className="py-2 px-4 bg-blue-600 text-white font-semibold rounded-md shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out duration-200 w-full">Register</button>
           </form>
           <p className="text-center mt-4 text-gray-600 cursor-pointer hover:underline" onClick={() => setLog(true)}>Already have an account? Login</p>
