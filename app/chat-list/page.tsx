@@ -226,6 +226,7 @@ export default function ChatList() {
         if(data.message && data.message.includes("Your request has been accepted by")){
           fetchRequestsList()
           console.log('fetched')
+          console.log(showReqCounter)
         }
         fetchRequestedList()
         fetchRequestsList()
