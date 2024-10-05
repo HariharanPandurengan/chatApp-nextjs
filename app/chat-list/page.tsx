@@ -225,8 +225,6 @@ export default function ChatList() {
       if((data.message && data.message.includes("Your request has been accepted by")) || (data.message && data.message.includes("You are removed from friend list by" )) || (data.message && data.message.includes("you have a new friend request" ))){
         if(data.message && data.message.includes("you have a new friend request")){
           fetchRequestsList()
-          console.log('fetched')
-          console.log(showReqCounter)
         }
         fetchRequestedList()
         fetchRequestsList()
