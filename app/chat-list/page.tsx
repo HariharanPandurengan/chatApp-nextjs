@@ -347,7 +347,7 @@ export default function ChatList() {
           <div className="fixed z-50 sm:z-0 top-2 left-1/2 w-[95%] transform -translate-x-1/2 sm:relative sm:top-auto sm:left-auto sm:transform-none sm:w-1/4 border-2 border-gray-200 sm:me-2 p-4 rounded-xl bg-white shadow-lg">
             <input 
               onChange={(e) => setSeachUsername(e.target.value.toLowerCase())}
-              className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-md focus:border-blue-500 focus:ring focus:ring-blue-200 outline-none transition"
+              className="w-full text-black px-4 py-2 mb-4 border border-gray-300 rounded-md focus:border-blue-500 focus:ring focus:ring-blue-200 outline-none transition"
               placeholder="Search"
             />
             
@@ -366,7 +366,7 @@ export default function ChatList() {
                   const alreadyRequestsbyOppositePerson = requestsList.some((list) => list.username === item.username);
                   return (
                     <div key={item.username} className="bg-white mt-3 lg:flex items-center justify-between rounded-lg p-3 shadow-md hover:shadow-xl transition transform hover:-translate-y-1">
-                      <h4 className="font-bold me-2 text-center">{item.username}</h4>
+                      <h4 className="font-bold text-black me-2 text-center">{item.username}</h4>
                     
                       {friends ? (
                           <button onClick={(e) => removeFriend(e, item.username)} className="py-1 px-3 bg-red-500 text-white font-semibold rounded-full shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 transition ease-in-out duration-200 w-full">
