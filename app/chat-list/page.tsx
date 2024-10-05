@@ -477,7 +477,7 @@ export default function ChatList() {
           {/* request */}
           <div className="absolute sm:right-5 sm:top-6 right-3 top-[15%] sm:top-2 sm:p-4 p-2 text-right sm:w-1/3 w-[50%] overflow-hidden">
           
-          {showReqCounter && <p className='absolute right-0 top-0 px-1 sm:right-2 sm:top-1 border border-white z-30 text-xs text-white bg-red-500 rounded-full sm:px-2 sm:py-1'>{requestsList.length}</p>}
+            <p className='absolute right-0 top-0 px-1 sm:right-2 sm:top-1 border border-white z-30 text-xs text-white bg-red-500 rounded-full sm:px-2 sm:py-1'>{requestsList.length}</p>
             <button className="text-xs sm:text-base bg-red-500 p-2 text-white rounded-full shadow-md hover:bg-red-600 transition transform hover:scale-105" onClick={() => {
               setReq(true)
               fetchRequestsList()
