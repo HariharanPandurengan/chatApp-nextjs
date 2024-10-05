@@ -92,8 +92,8 @@ export default function Chat() {
       });
     }
     return(
-        <div className="w-full bg-gradient-to-b from-yellow-200 to-white-100  min-h-screen pt-1">
-            <div className="relative chat-div">
+        <div className="w-full bg-gradient-to-b from-yellow-200 to-white-100  min-h-screen sm:pt-1 p-0">
+            <div className="relative chat-div w-full">
                 <div className="sticky top-0 left-0 w-full flex items-center space-x-4 p-4 bg-gray-300 rounded mb-4">
                     <div className="w-12 h-12 rounded-full overflow-hidden">
                         <Image 
