@@ -16,7 +16,7 @@ let socket;
 
 export default function ChatList() {
   const[req,setReq] = useState(false);
-  const[searchUsername,setSeachUsername] = useState('');
+  const[searchUsername,setSearchUsername] = useState('');
   const[userList,setUserList] = useState([]);
   const[requestedList,setRequestedList] = useState([]);
   const[requestsList,setRequestsList] = useState([]);
@@ -43,16 +43,17 @@ export default function ChatList() {
   const router = useRouter()
 
   useEffect(() => {
+    socketInitializer(); 
+    return () => {
+      socket.disconnect(); 
+    };
+  }, []); 
+
+  useEffect(() => {
     fetchRequestsList();
     fetchRequestedList();
     fetchFriendsList();
     fetchGroups()
-    socketInitializer(); 
-    return () => {
-      if (socket) {
-        socket.disconnect();
-      }
-    };
   }, [currentUsername]);
 
   //notification setUp
@@ -139,8 +140,10 @@ export default function ChatList() {
   };
 
   useEffect(()=>{
-    if(requestsList.length !== 0){
-      setShowReqCounter(true)
+    if (requestsList.length !== 0) {
+      setShowReqCounter(true);
+    } else {
+      setShowReqCounter(false);
     }
   },[requestsList])
 
@@ -227,13 +230,10 @@ export default function ChatList() {
 
     socket.on('notification', (data:any) => {
       if((data.message && data.message.includes("Your request has been accepted by")) || (data.message && data.message.includes("You are removed from friend list by" )) || (data.message && data.message.includes("you have a new friend request" ))){
+        fetchRequestedList()
+        fetchRequestsList()
+        fetchFriendsList()
         setCurrentNotofication(data.message)
-        if(data.message && data.message.includes("Your request has been accepted by") || data.message && data.message.includes("You are removed from friend list by" )){
-          fetchFriendsList()
-        }
-        else if(data.message && data.message.includes("you have a new friend request" )){
-          fetchRequestsList()
-        }
         triggerNotification()
       }
       else if(data.for === "new chat"){
@@ -356,7 +356,7 @@ export default function ChatList() {
   
           <div className="fixed z-50 sm:z-0 top-2 left-1/2 w-[95%] transform -translate-x-1/2 sm:relative sm:top-auto sm:left-auto sm:transform-none sm:w-1/4 border-2 border-gray-200 sm:me-2 p-4 rounded-xl bg-white shadow-lg">
             <input 
-              onChange={(e) => setSeachUsername(e.target.value.toLowerCase())}
+              onChange={(e) => setSearchUsername(e.target.value.toLowerCase())}
               className="w-full text-black px-4 py-2 mb-4 border border-gray-300 rounded-md focus:border-blue-500 focus:ring focus:ring-blue-200 outline-none transition"
               placeholder="Search"
             />
@@ -477,7 +477,7 @@ export default function ChatList() {
           {/* request */}
           <div className="absolute sm:right-5 sm:top-6 right-3 top-[15%] sm:top-2 sm:p-4 p-2 text-right sm:w-1/3 w-[50%] overflow-hidden">
           
-            <p className='absolute right-0 top-0 px-1 sm:right-2 sm:top-1 border border-white z-30 text-xs text-white bg-red-500 rounded-full sm:px-2 sm:py-1'>{requestsList.length}</p>
+            {showReqCounter && <p className='absolute right-0 top-0 px-1 sm:right-2 sm:top-1 border border-white z-30 text-xs text-white bg-red-500 rounded-full sm:px-2 sm:py-1'>{requestsList.length}</p>}
             <button className="text-xs sm:text-base bg-red-500 p-2 text-white rounded-full shadow-md hover:bg-red-600 transition transform hover:scale-105" onClick={() => {
               setReq(true)
               fetchRequestsList()
