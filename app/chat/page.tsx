@@ -103,7 +103,7 @@ export default function Chat() {
                             height={48}
                         />
                     </div>
-                    <h2 className="text-lg font-medium">{opposite_person}</h2>
+                    <h2 className="text-lg text-black font-medium">{opposite_person}</h2>
                 </div>
             
                 <div className="chat-container z-20" ref={chatContainerRef}>
