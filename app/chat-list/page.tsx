@@ -221,8 +221,10 @@ export default function ChatList() {
     socket.on('notification', (data:any) => {
       if((data.message && data.message.includes("Your request has been accepted by")) || (data.message && data.message.includes("You are removed from friend list by" )) || (data.message && data.message.includes("you have a new friend request" ))){
         setCurrentNotofication(data.message)
-        triggerNotification()
+        fetchRequestedList()
+        fetchRequestsList()
         fetchFriendsList()
+        triggerNotification()
       }
       else if(data.for === "new chat"){
         setNotfiFrom(data.from)
@@ -245,7 +247,7 @@ export default function ChatList() {
   }
 
    useEffect(() =>  {
-    if(searchUsername !== ''){
+      if(searchUsername !== ''){
         axios
         .get('/api/searchUser',{
           params: { username: searchUsername }
@@ -265,11 +267,11 @@ export default function ChatList() {
         fetchRequestedList()
         fetchRequestsList()
         fetchFriendsList()
-     }
-     else{
+      }
+      else{
         setUserList([])
         setRequestedList([])
-     }
+      }
     }, [searchUsername])
 
     function sendReq(e,clickedUsername){
@@ -465,14 +467,16 @@ export default function ChatList() {
           }
         
           {/* request */}
-          <div className="absolute sm:right-5 sm:top-6 right-3 top-[17%] sm:top-2 sm:p-4 text-right sm:w-1/6 w-[50%] overflow-hidden">
-            <button className="text-xs sm:text-base bg-red-500 p-2 text-white rounded-full shadow-md hover:bg-red-600 transition transform hover:scale-105" onClick={() => {
-              setReq(true)
-              fetchRequestsList()
-              }}>
-              Requests
-            </button>
-            <div className={req ? 'relative border-2 border-gray-300 shadow-xl bg-white pt-1 w-full rounded-lg mt-2 px-2' : 'hidden'}>
+          <div className="absolute sm:right-5 sm:top-6 right-3 top-[19%] sm:top-2 sm:p-4 p-2 text-right sm:w-1/3 w-[50%] overflow-hidden">
+          
+          <p className={requestsList.length !== 0 ? 'absolute right-0 top-0 px-1 sm:right-2 sm:top-1 border border-white z-30 text-xs text-white bg-red-500 rounded-full sm:px-2 sm:py-1' : 'hidden'}>{requestsList.length}</p>
+          <button className="text-xs sm:text-base bg-red-500 p-2 text-white rounded-full shadow-md hover:bg-red-600 transition transform hover:scale-105" onClick={() => {
+            setReq(true)
+            fetchRequestsList()
+            }}>
+            Requests
+          </button>
+          <div className={req ? 'relative border-2 border-gray-300 shadow-xl bg-white pt-1 w-full rounded-lg mt-2 px-2' : 'hidden'}>
               <button className=" top-2 right-2 bg-red-500 px-3 py-1 text-white rounded-full shadow-md hover:bg-red-600 transition" onClick={() => setReq(false)}>
                 ×
               </button>
