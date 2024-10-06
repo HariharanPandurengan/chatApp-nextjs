@@ -7,6 +7,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useEffect , useRef } from 'react';
 import io from 'socket.io-client';
+import CryptoJs from "crypto-js"
 
 let socket;
 
@@ -64,10 +65,11 @@ export default function Chat() {
 
     function sendMessage(e){
       e.preventDefault();
+      const encryptedMessage = CryptoJs.AES.encrypt(recentChat,"mes")
       const postChat = {
           id:0,
           from : user,
-          chat : recentChat,
+          chat : encryptedMessage,
           mTime : '',
           mDate : ''
       }
