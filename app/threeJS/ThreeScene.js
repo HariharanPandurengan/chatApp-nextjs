@@ -2,42 +2,55 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
-const ThreeScene = () => {
+const AnimatedText = () => {
   const mountRef = useRef(null);
 
   useEffect(() => {
     // Set up the scene, camera, and renderer
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer();
-
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    const renderer = new THREE.WebGLRenderer({ alpha: true }); // Enable transparency
+    renderer.setSize(400, 100); // Adjust the size to fit the container
+    renderer.setPixelRatio(window.devicePixelRatio); // High-resolution displays
     mountRef.current.appendChild(renderer.domElement);
 
-    // Create a cube
-    const geometry = new THREE.BoxGeometry();
-    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
+    // Load font for the text
+    const loader = new THREE.FontLoader();
+    loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function (font) {
+      const textGeometry = new THREE.TextGeometry('HI', {
+        font: font,
+        size: 1.5, // Adjust the size of the text
+        height: 0.3, // Depth of the text
+      });
 
-    camera.position.z = 5;
+      const textMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+      const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+      scene.add(textMesh);
 
-    // Animation loop
-    const animate = () => {
-      requestAnimationFrame(animate);
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
-      renderer.render(scene, camera);
-    };
-    animate();
+      camera.position.z = 5;
 
-    // Cleanup on component unmount
+      // Animation loop
+      const animate = () => {
+        requestAnimationFrame(animate);
+        textMesh.rotation.x += 0.01;
+        textMesh.rotation.y += 0.01;
+        renderer.render(scene, camera);
+      };
+      animate();
+    });
+
+    // Cleanup on unmount
     return () => {
       mountRef.current.removeChild(renderer.domElement);
     };
   }, []);
 
-  return <div ref={mountRef}></div>;
+  return (
+    <div className="flex items-center justify-center">
+      <div ref={mountRef} />
+    </div>
+  );
 };
 
-export default ThreeScene;
+export default AnimatedText;
+
