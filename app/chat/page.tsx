@@ -118,7 +118,7 @@ export default function Chat() {
                             const isSent = (item.from === user);
                             let diffDate = false;
                             if(index !== 0){
-                              if(chat[index-1] !== item.mDate){
+                              if(chat[index-1].mDate !== item.mDate){
                                 diffDate = true
                               }
                             }
