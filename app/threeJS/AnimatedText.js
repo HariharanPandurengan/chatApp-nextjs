@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
 
 const AnimatedText = () => {
   const mountRef = useRef(null);
@@ -15,7 +16,7 @@ const AnimatedText = () => {
     mountRef.current.appendChild(renderer.domElement);
 
     // Load font for the text
-    const loader = new THREE.FontLoader();
+    const loader = new FontLoader();
     loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function (font) {
       const textGeometry = new THREE.TextGeometry('HI', {
         font: font,
