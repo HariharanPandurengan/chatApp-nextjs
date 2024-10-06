@@ -8,6 +8,8 @@ export async function POST(req,res){
         const users = await req.json();
         const newChat = users.chat
 
+        new
+
         // Helper function to format time in 'hh:mm AM/PM' format
         function formatTime(date) {
             const options = {
