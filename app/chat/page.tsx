@@ -16,7 +16,8 @@ export default function Chat() {
     const[recentChat,setRecentChat] = useState("")
     const user = useSelector((state: RootState) => state.user.username);
     const opposite_person =  useSelector((state: RootState) => state.user.oppositeUsername);
-    
+    const[dateCheck,setDateCheck] = useState("")
+
     const chatContainerRef = useRef(null);
 
     function getChat(){
@@ -115,6 +116,11 @@ export default function Chat() {
                             const decryptedBytes = CryptoJs.AES.decrypt(item.chat, "mes");
                             const messageContent = decryptedBytes.toString(CryptoJs.enc.Utf8);
                             const isSent = (item.from === user);
+                            let diffDate = false;
+                            if(dateCheck !== item.mDate){
+                              diffDate = true
+                              setDateCheck(item.mDate)
+                            }
                             return (
                                 <div key={item.id}> 
                                     {
@@ -131,6 +137,12 @@ export default function Chat() {
                                                 <p className="text-xl text-black font-medium">{messageContent}<small className="text-xs text-black font-light ms-2">{item.mTime}</small></p>
                                             </div>
                                             {/* <small className="text-xs font-light ms-2">{opposite_person}</small> */}
+                                        </div>
+                                    }
+                                    {
+                                      diffDate && 
+                                        <div>
+                                          <p className='text-center text-black'>{item.mDate}</p>
                                         </div>
                                     }
                                 </div>
