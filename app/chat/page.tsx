@@ -16,7 +16,6 @@ export default function Chat() {
     const[recentChat,setRecentChat] = useState("")
     const user = useSelector((state: RootState) => state.user.username);
     const opposite_person =  useSelector((state: RootState) => state.user.oppositeUsername);
-    const[dateCheck,setDateCheck] = useState("")
 
     const chatContainerRef = useRef(null);
 
@@ -128,6 +127,12 @@ export default function Chat() {
                             return (
                                 <div key={item.id}> 
                                     {
+                                      diffDate && 
+                                        <div>
+                                          <p className='text-center text-black'>{item.mDate}</p>
+                                        </div>
+                                    }
+                                    {
                                         isSent ? 
                                         <div className="w-full flex justify-end items-center w-full">
                                             {/* <small className="text-xs font-light">you</small> */}
@@ -141,12 +146,6 @@ export default function Chat() {
                                                 <p className="text-xl text-black font-medium">{messageContent}<small className="text-xs text-black font-light ms-2">{item.mTime}</small></p>
                                             </div>
                                             {/* <small className="text-xs font-light ms-2">{opposite_person}</small> */}
-                                        </div>
-                                    }
-                                    {
-                                      diffDate && 
-                                        <div>
-                                          <p className='text-center text-black'>{item.mDate}</p>
                                         </div>
                                     }
                                 </div>
