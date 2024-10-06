@@ -112,14 +112,18 @@ export default function Chat() {
                 <div className="chat-container z-20" ref={chatContainerRef}>
                     {
                        chat.length !== 0 && 
-                          chat.map((item) => {
+                          chat.map((item,index) => {
                             const decryptedBytes = CryptoJs.AES.decrypt(item.chat, "mes");
                             const messageContent = decryptedBytes.toString(CryptoJs.enc.Utf8);
                             const isSent = (item.from === user);
                             let diffDate = false;
-                            if(dateCheck !== item.mDate){
+                            if(index !== 0){
+                              if(chat[index-1] !== item.mDate){
+                                diffDate = true
+                              }
+                            }
+                            else{
                               diffDate = true
-                              setDateCheck(item.mDate)
                             }
                             return (
                                 <div key={item.id}> 
