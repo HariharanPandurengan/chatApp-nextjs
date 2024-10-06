@@ -22,7 +22,8 @@ export async function POST(req,res){
         
         // Helper function to format date in 'dd/mm/yyyy' format
         function formatDate(date) {
-            const day = date.getDate();
+            const istDate = new Date(date.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
+            const day = istDate.getDate();
             const month = date.getMonth() + 1; // Months are zero-based in JavaScript
             const year = date.getFullYear();
         
