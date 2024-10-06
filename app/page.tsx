@@ -69,7 +69,10 @@ export default function Login() {
     <section className="min-h-screen w-full p-8 bg-gradient-to-r from-blue-500 to-teal-500 flex items-center justify-center">
       <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
         <div className='text-center'>
-          <h1 className='inline-block animate-spin-once text-2xl font-semibold text-center mb-4 text-gray-800'>HI</h1>
+          <div className='mb-4 flex'>
+            <h1 className='inline-block animate-spin-once text-2xl font-semibold text-center text-gray-800 leading-none tracking-tight m-0 p-0'>H</h1>
+            <h1 className='inline-block animate-spin-once2 text-2xl font-semibold text-center text-gray-800 leading-none tracking-tight m-0 p-0'>I</h1>
+          </div>
           <small className='text-black text-center'>A Securied Chat App</small>
         </div>
         <div className={log ? '' : 'hidden'}>
