@@ -112,7 +112,7 @@ export default function Chat() {
                     {
                        chat.length !== 0 && 
                           chat.map((item) => {
-                            const messageContent = item.chat;
+                            const messageContent = CryptoJs.AES.decrypt(item.chat,"mes");
                             const isSent = (item.from === user);
                             return (
                                 <div key={item.id}> 
