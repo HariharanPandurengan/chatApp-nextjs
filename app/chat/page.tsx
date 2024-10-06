@@ -65,7 +65,7 @@ export default function Chat() {
 
     function sendMessage(e){
       e.preventDefault();
-      const encryptedMessage = CryptoJs.AES.encrypt(recentChat,"mes")
+      const encryptedMessage = CryptoJs.AES.encrypt(recentChat, "mes").toString();
       const postChat = {
           id:0,
           from : user,
@@ -112,7 +112,8 @@ export default function Chat() {
                     {
                        chat.length !== 0 && 
                           chat.map((item) => {
-                            const messageContent = CryptoJs.AES.decrypt(item.chat,"mes");
+                            const decryptedBytes = CryptoJs.AES.decrypt(item.chat, "mes");
+                            const messageContent = decryptedBytes.toString(CryptoJs.enc.Utf8);
                             const isSent = (item.from === user);
                             return (
                                 <div key={item.id}> 
