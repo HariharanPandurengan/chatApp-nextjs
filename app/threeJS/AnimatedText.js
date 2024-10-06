@@ -38,12 +38,6 @@ const AnimatedText = () => {
       const letterH = new THREE.Mesh(textGeometryH, textMaterial);
       const letterI = new THREE.Mesh(textGeometryI, textMaterial);
 
-      // Create black border (outline)
-      const edges = new THREE.EdgesGeometry(textGeometry);  // Generates edges from the geometry
-      const lineMaterial = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 1 });  // Black border
-      const lineSegments = new THREE.LineSegments(edges, lineMaterial);
-      scene.add(lineSegments);
-
       // Position letters
       letterH.position.x = -3; // Start 'H' from the left
       letterI.position.x = 3; // Start 'I' from the right
