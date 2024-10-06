@@ -2,12 +2,15 @@ import connectMongo from "../../../utils/connectMongo";
 import UserModel from "../../../models/userModel";
 import ReqModel from "../../../models/requestModel";
 import RequestedModel from "../../../models/requestedModel";
+import bcrypt from 'bcrypt';
 
 export async function POST(req,res){
     
     try {
         await connectMongo();
         const registerDetails = await req.json();
+
+        const hashedPassword = await bcrypt.hash(registerDetails.password, 10);
         
         const userData = await UserModel.find({ username: registerDetails.username});
         if(userData.length === 1){
@@ -16,7 +19,7 @@ export async function POST(req,res){
         else{
             const user = new UserModel({
                 username: registerDetails.username,
-                password: registerDetails.password,
+                password: hashedPassword,
                 groups:[]
               });
           
