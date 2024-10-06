@@ -16,7 +16,7 @@ export default function Login() {
 
   const dispatch = useAppDispatch();
 
-  const AnimatedText = dynamic(() => import('./threeJS/ThreeScene'), {
+  const AnimatedText = dynamic(() => import('./threeJS/AnimatedText'), {
     ssr: false,
   });
 
@@ -68,7 +68,6 @@ export default function Login() {
   return (
     <section className="min-h-screen w-full p-8 bg-gradient-to-r from-blue-500 to-teal-500 flex items-center justify-center">
       <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
-        <h1 className="text-3xl font-semibold text-center mb-6 text-gray-800">HI</h1>
         <AnimatedText />
         <div className={log ? '' : 'hidden'}>
           <h2 className="text-2xl font-semibold text-center mb-4 text-gray-800">Login</h2>
