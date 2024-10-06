@@ -9,7 +9,7 @@ export async function POST(req,res){
         
         const userData = await UserModel.find({ username: loginDetails.username });
         if(userData.length === 1){
-            const passwordCheck = bcrypt.compare(loginDetails.password,userData[0].password)
+            const passwordCheck = await bcrypt.compare(loginDetails.password,userData[0].password)
             if(passwordCheck){
                 return Response.json({status:true})
             }
