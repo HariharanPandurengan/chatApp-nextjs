@@ -6,8 +6,6 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
 
 const AnimatedText = () => {
   const mountRef = useRef(null);
-  const letterHRef = useRef(null);
-  const letterIRef = useRef(null);
   const animationRef = useRef(null);
 
   useEffect(() => {
@@ -67,10 +65,22 @@ const AnimatedText = () => {
 
         // Check if letters have met
         if (animationProgress >= 1) {
-          letterH.position.x = 0; // Snap 'H' to the center
-          letterI.position.x = 0; // Snap 'I' to the center
-          letterH.rotation.z = 0; // Reset rotation
-          letterI.rotation.z = 0; // Reset rotation
+          // Combine letters into a single geometry for border
+          const combinedGeometry = new THREE.Geometry();
+          combinedGeometry.merge(letterH.geometry);
+          combinedGeometry.merge(letterI.geometry);
+
+          // Create black border for combined letters
+          const edges = new THREE.EdgesGeometry(combinedGeometry);
+          const lineMaterial = new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 }); // Black border
+          const lineSegments = new THREE.LineSegments(edges, lineMaterial);
+          scene.add(lineSegments);
+
+          // Snap letters to the center and remove original letters
+          letterH.position.set(0, 0, 0);
+          letterI.position.set(0, 0, 0);
+          letterH.visible = false; // Hide original 'H'
+          letterI.visible = false; // Hide original 'I'
         }
 
         renderer.render(scene, camera);
@@ -100,3 +110,4 @@ const AnimatedText = () => {
 };
 
 export default AnimatedText;
+
