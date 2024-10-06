@@ -399,107 +399,113 @@ export default function ChatList() {
             }
           </div>
       
-          {!groupChat &&
-            <div className="relative w-full mt-20 sm:mt-0 border border-gray-200 p-6 rounded-xl bg-white shadow-lg">
-              <h1 className="text-2xl font-semibold text-indigo-800 mb-6">Welcome, {currentUsername}</h1>
-              
-              <div className='flex items-center w-full sm:mb-8 mb-3 relative'>
-                <h2 className="text-center text-3xl font-bold text-indigo-700 w-[100%]">Chats</h2>
-                <h6 className="absolute text-black right-0 text-center lg:w-[15%] md:w-[20%] sm:w-[30%] w-[25%] text-xs sm:text-sm underline cursor-pointer hover:bg-gray-200" onClick={()=>{
-                    setGroupChat(true);
-                    fetchGroups()
-                  }
-                  }>Group Chat</h6>
-              </div>
-  
-              {friendsList.map(item => (
-                <div onClick={()=>{
-                  dispatch(reduxOppositeUsername(item.user1 === currentUsername ? item.user2 : item.user1))
-                  router.push('chat')
-                }} key={item.user1 === currentUsername ? item.user2 : item.user1} className="relative border border-gray-200 rounded-lg shadow-md bg-white p-4 flex items-center mb-4 hover:bg-indigo-50 hover:shadow-lg transition">
-                  <Image 
-                    src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-social-media-user-vector-default-avatar-profile-icon-social-media-user-vector-portrait-176194876.jpg" 
-                    alt="Profile Avatar"
-                    width={50}
-                    height={50}
-                    className="rounded-full"
-                  />
-                  <div className="flex flex-col justify-center ms-4">
-                    <h3 className="font-medium text-gray-900">{item.user1 === currentUsername ? item.user2 : item.user1}</h3>
-                    {/* <p className="text-sm text-gray-600">{item.lastChat}</p> */}
-                  </div>
-                  <div className="absolute right-3 bottom-2">
-                    {/* <p className="text-xs text-gray-500">{item.lastChatDate}</p> */}
-                  </div>
+          <div className="w-full mt-20 sm:mt-0 border border-gray-200 p-6 rounded-xl bg-white shadow-lg">
+            <div className='flex justify-between items-center mb-6 w-full'>
+              <h1 className="text-2xl w-[60%] font-semibold text-indigo-800">Welcome, {currentUsername}</h1>
+
+              {/* request */}
+              <div className="w-[40%] sm:p-4 p-2 text-right overflow-hidden"> 
+                <div className='relative'>
+                  <p className={requestsList.length !== 0 ? 'absolute right-0 top-0 px-1 sm:right-2 sm:top-1 border border-white z-30 text-xs text-white bg-red-500 rounded-full sm:px-2 sm:py-1' : 'hidden'}>{requestsList.length}</p>
+                  <button className="mt-2 me-1 sm:me-4 sm:mt-4 text-xs sm:text-base bg-red-500 p-2 text-white rounded-full shadow-md hover:bg-red-600 transition transform hover:scale-105" onClick={() => {
+                    setReq(true)
+                    fetchRequestsList()
+                    }}>
+                    Requests
+                  </button>
                 </div>
-              ))}
-            </div>
-          }
-  
-          {groupChat &&
-            <div className="relative w-full border border-gray-200 p-6 rounded-xl bg-white shadow-lg">
-              <h1 className="text-2xl font-semibold text-indigo-800 mb-6">Welcome, {currentUsername}</h1>
-              
-              <div className='flex items-center w-full mb-8'>
-                <button className="text-center rounded w-[10%] sm:w-[20%] cursor-pointer bg-green-500 text-white" onClick={()=>setGroupChatCreation(true)}>Create Group</button>
-                <h2 className="text-center text-3xl font-bold text-indigo-700 w-[80%] sm:w-[60%]">Group Chat</h2>
-                <button className="text-right w-[10%] sm:w-[20%] cursor-pointer" onClick={()=>setGroupChat(false)}>Chat</button>
-              </div>
-  
-              {groupChatlist.length !== 0 && groupChatlist.map(item => (
-                <div onClick={()=>{
-                    dispatch(reduxGroupIDandName({groupID:item.groupID,groupName:item.groupName}))
-                    router.push('groupChat')
-                  }} key={item.groupID} className="relative border border-gray-200 rounded-lg shadow-md bg-white p-4 flex items-center mb-4 hover:bg-indigo-50 hover:shadow-lg transition">
-                  <Image 
-                    src="https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-group-icon-png-image_1796653.jpg" 
-                    alt="Profile Avatar"
-                    width={50}
-                    height={50}
-                    className="rounded-full"
-                  />
-                  <div className="flex flex-col justify-center ms-4">
-                    <h3 className="font-medium text-gray-900">{item.groupName}</h3>
-                    {/* <p className="text-sm text-gray-600">{item.lastChat}</p> */}
+                <div className={req ? 'absolute left-0 top-0 z-50 w-full bg-gray-500 bg-opacity-80 h-screen' : 'hidden'}>
+                  <div className='relative h-[50vh] sm:h-[70vh] overflow-y-auto top-[20%] w-[90%] m-auto border-2 border-gray-300 shadow-xl bg-white rounded-lg pt-1 mt-2 px-2'>
+                    <button className=" top-2 right-2 bg-red-500 px-3 py-1 text-white rounded-full shadow-md hover:bg-red-600 transition" onClick={() => setReq(false)}>
+                      ×
+                    </button>
+                    <h1 className="text-lg underline text-center font-semibold text-gray-800 m-0 mt-2">Requests</h1>
+                    <div>
+                      {
+                        requestsList.length !== 0 && requestsList.map(list=>{
+                          return(
+                            <div key={list.username} className="border-2 m-1 bg-white mt-3 lg:flex items-center justify-between sm:justify-center rounded-lg p-3 shadow-md hover:shadow-xl transition transform hover:-translate-y-1">
+                              <h4 className="font-bold text-center text-gray-800 font-medium me-2">{list.username}</h4>
+                              <button onClick={(e) => acceptReq(e, list.username)} className="w-full sm:w-1/4 py-1 px-3 bg-green-500 text-white font-semibold rounded-full hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300 transition ease-in-out duration-200 shadow-md">
+                                Accept
+                              </button>
+                            </div>
+                          )
+                        })
+                      }
+                    </div>
                   </div>
-                  <div className="absolute right-3 bottom-2">
-                    {/* <p className="text-xs text-gray-500">{item.lastChatDate}</p> */}
-                  </div>
+                  
                 </div>
-              ))}
-            </div>
-          }
-        
-          {/* request */}
-          <div className="absolute sm:right-5 sm:top-6 right-3 top-[15%] sm:top-2 sm:p-4 p-2 text-right sm:w-1/3 w-[50%] overflow-hidden">
-          
-            <p className='absolute right-0 top-0 px-1 sm:right-2 sm:top-1 border border-white z-30 text-xs text-white bg-red-500 rounded-full sm:px-2 sm:py-1'>{showReqCounter}</p>
-            <button className="text-xs sm:text-base bg-red-500 p-2 text-white rounded-full shadow-md hover:bg-red-600 transition transform hover:scale-105" onClick={() => {
-              setReq(true)
-              fetchRequestsList()
-              }}>
-              Requests
-            </button>
-            <div className={req ? 'relative border-2 border-gray-300 shadow-xl bg-white pt-1 w-full rounded-lg mt-2 px-2' : 'hidden'}>
-              <button className=" top-2 right-2 bg-red-500 px-3 py-1 text-white rounded-full shadow-md hover:bg-red-600 transition" onClick={() => setReq(false)}>
-                ×
-              </button>
-              <h1 className="text-lg underline text-center font-semibold text-gray-800 m-0 mt-2">Requests</h1>
-              <div>
-                {
-                  requestsList.length !== 0 && requestsList.map(list=>{
-                    return(
-                      <div key={list.username} className="border-2 m-1 bg-white mt-3 lg:flex items-center justify-between rounded-lg p-3 shadow-md hover:shadow-xl transition transform hover:-translate-y-1">
-                        <h4 className="font-bold text-center text-gray-800 font-medium">{list.username}</h4>
-                        <button onClick={(e) => acceptReq(e, list.username)} className="w-full py-1 px-3 bg-green-500 text-white font-semibold rounded-full hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300 transition ease-in-out duration-200 shadow-md">
-                          Accept
-                        </button>
-                      </div>
-                    )
-                  })
-                }
               </div>
             </div>
+
+            {!groupChat &&
+              <>
+                <div className='flex items-center w-full sm:mb-8 mb-3 relative'>
+                  <h2 className="text-center text-3xl font-bold text-indigo-700 w-[100%]">Chats</h2>
+                  <h6 className=" absolute right-0 text-center lg:w-[15%] md:w-[20%] sm:w-[30%] w-[25%] text-xs sm:text-sm underline cursor-pointer hover:bg-gray-200" onClick={()=>{
+                      setGroupChat(true);
+                      fetchGroups()
+                    }
+                    }>Group Chat</h6>
+                </div>
+
+                {friendsList.map(item => (
+                  <div onClick={()=>{
+                    dispatch(reduxOppositeUsername(item.user1 === currentUsername ? item.user2 : item.user1))
+                    router.push('chat')
+                  }} key={item.user1 === currentUsername ? item.user2 : item.user1} className="relative border border-gray-200 rounded-lg shadow-md bg-white p-4 flex items-center mb-4 hover:bg-indigo-50 hover:shadow-lg transition">
+                    <Image 
+                      src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-social-media-user-vector-default-avatar-profile-icon-social-media-user-vector-portrait-176194876.jpg" 
+                      alt="Profile Avatar"
+                      width={50}
+                      height={50}
+                      className="rounded-full"
+                    />
+                    <div className="flex flex-col justify-center ms-4">
+                      <h3 className="font-medium text-gray-900">{item.user1 === currentUsername ? item.user2 : item.user1}</h3>
+                      {/* <p className="text-sm text-gray-600">{item.lastChat}</p> */}
+                    </div>
+                    <div className="absolute right-3 bottom-2">
+                      {/* <p className="text-xs text-gray-500">{item.lastChatDate}</p> */}
+                    </div>
+                  </div>
+                ))}
+              </>
+            }
+
+            {groupChat &&
+              <>
+                <div className='flex items-center w-full mb-8'>
+                  <button className="text-xs sm:text-sm p-1 text-center rounded w-[15%] sm:w-[20%] cursor-pointer bg-green-500 text-white" onClick={()=>setGroupChatCreation(true)}>Create Group</button>
+                  <h2 className="text-center text-3xl font-bold text-indigo-700 w-[70%] sm:w-[60%]">Group Chat</h2>
+                  <button className="text-right w-[15%] sm:w-[20%] cursor-pointer underline" onClick={()=>setGroupChat(false)}>Chat</button>
+                </div>
+
+                {groupChatlist.length !== 0 && groupChatlist.map(item => (
+                  <div onClick={()=>{
+                      dispatch(reduxGroupIDandName({groupID:item.groupID,groupName:item.groupName}))
+                      router.push('groupChat')
+                    }} key={item.groupID} className="relative border border-gray-200 rounded-lg shadow-md bg-white p-4 flex items-center mb-4 hover:bg-indigo-50 hover:shadow-lg transition">
+                    <Image 
+                      src="https://png.pngtree.com/png-vector/20191009/ourmid/pngtree-group-icon-png-image_1796653.jpg" 
+                      alt="Profile Avatar"
+                      width={50}
+                      height={50}
+                      className="rounded-full"
+                    />
+                    <div className="flex flex-col justify-center ms-4">
+                      <h3 className="font-medium text-gray-900">{item.groupName}</h3>
+                      {/* <p className="text-sm text-gray-600">{item.lastChat}</p> */}
+                    </div>
+                    <div className="absolute right-3 bottom-2">
+                      {/* <p className="text-xs text-gray-500">{item.lastChatDate}</p> */}
+                    </div>
+                  </div>
+                ))}
+              </>
+            }
           </div>
   
           {
