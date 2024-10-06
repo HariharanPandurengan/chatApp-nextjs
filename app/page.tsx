@@ -16,9 +16,9 @@ export default function Login() {
 
   const dispatch = useAppDispatch();
 
-  const AnimatedText = dynamic(() => import('./threeJS/AnimatedText'), {
-    ssr: false,
-  });
+  // const AnimatedText = dynamic(() => import('./threeJS/AnimatedText'), {
+  //   ssr: false,
+  // });
 
   function login(e){
     e.preventDefault();
@@ -68,8 +68,10 @@ export default function Login() {
   return (
     <section className="min-h-screen w-full p-8 bg-gradient-to-r from-blue-500 to-teal-500 flex items-center justify-center">
       <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
-        <AnimatedText />
-        <small className='text-black text-center'>A Securied Chat App</small>
+        <div className='text-center'>
+          <h1 className='inline-block animate-spin-once text-2xl font-semibold text-center mb-4 text-gray-800'>HI</h1>
+          <small className='text-black text-center'>A Securied Chat App</small>
+        </div>
         <div className={log ? '' : 'hidden'}>
           <h2 className="text-2xl font-semibold text-center mb-4 text-gray-800">Login</h2>
           <form onSubmit={login} className="flex flex-col space-y-4">

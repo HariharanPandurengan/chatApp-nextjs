@@ -24,6 +24,15 @@ const config: Config = {
       lg: '1024px',
       xl: '1280px',
     },
+    animation: {
+      'spin-once': 'spinOnce 1s ease-in-out 1', // 1 rotation in 1 second
+    },
+    keyframes: {
+      spinOnce: {
+        '0%': { transform: 'rotate(0deg)' },
+        '100%': { transform: 'rotate(360deg)' },
+      },
+    },
   },
   plugins: [],
 };
