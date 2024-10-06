@@ -5,6 +5,7 @@ import { useState , useEffect } from "react";
 import axios from 'axios';
 import { useAppDispatch } from '../redux/hooks';
 import { reduxLogin,reduxUsername } from '../redux/store';
+import dynamic from 'next/dynamic';
 
 export default function Login() {
   const router = useRouter()
@@ -14,6 +15,10 @@ export default function Login() {
   const[confirmPassword,setConfirmPassword] = useState('');
 
   const dispatch = useAppDispatch();
+
+  const ThreeScene = dynamic(() => import('./threeJS/ThreeScene'), {
+    ssr: false,
+  });
 
   function login(e){
     e.preventDefault();
@@ -64,7 +69,7 @@ export default function Login() {
     <section className="min-h-screen w-full p-8 bg-gradient-to-r from-blue-500 to-teal-500 flex items-center justify-center">
       <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
         <h1 className="text-3xl font-semibold text-center mb-6 text-gray-800">Chat App</h1>
-
+        <ThreeScene />
         <div className={log ? '' : 'hidden'}>
           <h2 className="text-2xl font-semibold text-center mb-4 text-gray-800">Login</h2>
           <form onSubmit={login} className="flex flex-col space-y-4">
