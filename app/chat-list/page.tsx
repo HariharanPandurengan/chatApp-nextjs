@@ -444,7 +444,7 @@ export default function ChatList() {
               <>
                 <div className='flex items-center w-full sm:mb-8 mb-3 relative'>
                   <h2 className="text-center text-3xl font-bold text-indigo-700 w-[100%]">Chats</h2>
-                  <h6 className=" absolute right-0 text-center lg:w-[15%] md:w-[20%] sm:w-[30%] w-[25%] text-xs sm:text-sm underline cursor-pointer hover:bg-gray-200" onClick={()=>{
+                  <h6 className=" absolute right-0 text-black text-center lg:w-[15%] md:w-[20%] sm:w-[30%] w-[25%] text-xs sm:text-sm underline cursor-pointer hover:bg-gray-200" onClick={()=>{
                       setGroupChat(true);
                       fetchGroups()
                     }
@@ -480,7 +480,7 @@ export default function ChatList() {
                 <div className='flex items-center w-full mb-8'>
                   <button className="text-xs sm:text-sm p-1 text-center rounded w-[15%] sm:w-[20%] cursor-pointer bg-green-500 text-white" onClick={()=>setGroupChatCreation(true)}>Create Group</button>
                   <h2 className="text-center text-3xl font-bold text-indigo-700 w-[70%] sm:w-[60%]">Group Chat</h2>
-                  <button className="text-right w-[15%] sm:w-[20%] cursor-pointer underline" onClick={()=>setGroupChat(false)}>Chat</button>
+                  <button className="text-right w-[15%] sm:w-[20%] cursor-pointer underline text-black" onClick={()=>setGroupChat(false)}>Chat</button>
                 </div>
 
                 {groupChatlist.length !== 0 && groupChatlist.map(item => (
