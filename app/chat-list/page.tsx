@@ -350,7 +350,7 @@ export default function ChatList() {
     return(
         <section className="relative min-h-screen sm:flex w-full bg-gradient-to-br from-blue-50 to-indigo-100 sm:p-6 p-1 pt-7">
   
-          <div className="fixed z-50 sm:z-0 top-2 left-1/2 w-[95%] transform -translate-x-1/2 sm:relative sm:top-auto sm:left-auto sm:transform-none sm:w-1/4 border-2 border-gray-200 sm:me-2 p-4 rounded-xl bg-white shadow-lg">
+          <div className="fixed z-40 sm:z-0 top-2 left-1/2 w-[95%] transform -translate-x-1/2 sm:relative sm:top-auto sm:left-auto sm:transform-none sm:w-1/4 border-2 border-gray-200 sm:me-2 p-4 rounded-xl bg-white shadow-lg">
             <input 
               onChange={(e) => setSearchUsername(e.target.value.toLowerCase())}
               className="w-full text-black px-4 py-2 mb-4 border border-gray-300 rounded-md focus:border-blue-500 focus:ring focus:ring-blue-200 outline-none transition"
@@ -510,15 +510,15 @@ export default function ChatList() {
   
           {
             groupChatCreation && 
-              <div className='absolute bg-black bg-opacity-50 top-0 bottom-0 left-0 right-0 w-full z-30 flex items-center justify-center'>
+              <div className='absolute z-50 bg-black bg-opacity-50 top-0 bottom-0 left-0 right-0 w-full z-30 flex items-center justify-center'>
                 <div className='w-4/5 bg-yellow-50 rounded-lg p-6 shadow-2xl'>
-                  <h2 className='text-center mb-4 underline shadow-sm rounded bg-yellow-200 px-3 py-1 font-semibold'>
+                  <h2 className='text-center text-black mb-4 underline shadow-sm rounded bg-yellow-200 px-3 py-1 font-semibold'>
                     Group Creation
                   </h2>
                   <div className='flex flex-col'>
-                    <h4 className='mb-1 font-medium'>Enter Group Name:</h4>
+                    <h4 className='mb-1 font-medium text-black'>Enter Group Name:</h4>
                     <input 
-                      className='mb-4 py-2 px-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400'
+                      className='mb-4 text-black py-2 px-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400'
                       placeholder='Group Name' 
                       onChange={(e) => setGroupName(e.target.value)} 
                     />
@@ -545,9 +545,9 @@ export default function ChatList() {
                       </div>
                     </div>
   
-                    <h4 className='mb-1 font-medium'>Add Members:</h4>
+                    <h4 className='mb-1 font-medium text-black'>Add Members:</h4>
                     <input 
-                      className='mb-3 py-2 px-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400'
+                      className='mb-3 text-black py-2 px-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400'
                       placeholder='Search username'
                       onChange={(e) => {
                         let startsWithsearchName = groupChatFriendlist.filter(element => element.startsWith(e.target.value));
