@@ -511,7 +511,7 @@ export default function ChatList() {
           {
             groupChatCreation && 
               <div className='absolute z-50 bg-black bg-opacity-50 top-0 bottom-0 left-0 right-0 w-full z-30 flex items-center justify-center'>
-                <div className='w-4/5 bg-yellow-50 rounded-lg p-6 shadow-2xl'>
+                <div className='sm:w-4/5 w-[90%] bg-yellow-50 rounded-lg p-6 shadow-2xl'>
                   <h2 className='text-center text-black mb-4 underline shadow-sm rounded bg-yellow-200 px-3 py-1 font-semibold'>
                     Group Creation
                   </h2>
