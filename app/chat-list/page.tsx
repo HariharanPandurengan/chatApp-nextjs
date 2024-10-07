@@ -379,8 +379,8 @@ export default function ChatList() {
                             <button onClick={(e) => removeFriend(e, item.username)} className="py-1 text-sm px-3 bg-red-500 text-white font-semibold rounded-full shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 transition ease-in-out duration-200 w-[45%]">
                               Remove
                             </button>
-                            <button onClick={()=>{
-                              dispatch(reduxOppositeUsername(item.user1 === currentUsername ? item.user2 : item.user1))
+                            <button onClick={(e)=>{
+                              dispatch(reduxOppositeUsername(item.username))
                               router.push('chat')
                             }} className="py-1 text-sm px-3 bg-green-500 text-black font-semibold rounded-full shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300 transition ease-in-out duration-200 w-[45%]">
                                 Chat
