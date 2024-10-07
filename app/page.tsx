@@ -69,9 +69,9 @@ export default function Login() {
     <section className="min-h-screen w-full p-8 bg-gradient-to-r from-blue-500 to-teal-500 flex items-center justify-center">
       <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
         <div className='text-center mb-4'>
-          <div className='flex justify-between animate-justify-content-animation items-center'>
-            <h1 className='inline-block animate-spin-once text-red-500 leading-none tracking-tight m-0 p-0'>H</h1>
-            <h1 className='inline-block animate-spin-once2 text-white-500 border boder-black leading-none tracking-tight m-0 p-0'>I</h1>
+          <div className='flex justify-between items-center'>
+            <h1 className='inline-block animate-move-to-center transform -translate-x-full animate-spin-once text-red-500 leading-none tracking-tight m-0 p-0'>H</h1>
+            <h1 className='inline-block animate-move-to-center transform translate-x-full animate-spin-once2 text-white-500 border boder-black leading-none tracking-tight m-0 p-0'>I</h1>
           </div>
           <small className='text-black text-center underline'>A Securied Chat App</small>
         </div>

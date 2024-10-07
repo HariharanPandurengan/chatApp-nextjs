@@ -26,9 +26,10 @@ const config: Config = {
     },
     animation: {
       'spin-once': 'spinOnce 1s ease-in-out 1', // 1 rotation in 1 second
-      'spin-once2': 'spinOnce2 1s ease forwards 1s', // 1 rotation in 1 second
+      'spin-once2': 'spinOnce2 1s ease-in-out 1', // 1 rotation in 1 second
       'show-element': 'showElement 1s forwards 1s',
       'justify-content-animation': 'justifyAnimation 1s ease-in-out forwards',
+      'move-to-center': 'moveToCenter 1s ease-in-out forwards',
     },
     keyframes: {
       spinOnce: {
@@ -46,6 +47,11 @@ const config: Config = {
       justifyAnimation: {
         '0%': { 'justify-content': 'space-between' },
         '100%': { 'justify-content': 'center' },
+      },
+      moveToCenter: {
+        '0%': { transform: 'translateX(100%)', opacity: '0' }, // Initial position (off-screen)
+        '50%': { opacity: '1' }, // Midway through the animation, make them visible
+        '100%': { transform: 'translateX(0)' }, // Move to center
       },
     },
   },
