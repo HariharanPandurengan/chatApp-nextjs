@@ -70,8 +70,8 @@ export default function Login() {
       <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
         <div className='text-center mb-4'>
           <div className='flex justify-center items-center'>
-            <h1 className='inline-block animate-spin-once text-gray-800 leading-none tracking-tight m-0 p-0'>H</h1>
-            <h1 className='inline-block animate-spin-once2 text-gray-800 leading-none tracking-tight m-0 p-0'>I</h1>
+            <h1 className='inline-block animate-spin-once text-gray-800 text-red-400 leading-none tracking-tight m-0 p-0'>H</h1>
+            <h1 className='inline-block animate-spin-once2 text-gray-800 text-white-500 border boder-black leading-none tracking-tight m-0 p-0'>I</h1>
           </div>
           <small className='text-black text-center underline'>A Securied Chat App</small>
         </div>
