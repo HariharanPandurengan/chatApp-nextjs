@@ -375,9 +375,17 @@ export default function ChatList() {
                       <h4 className="font-bold text-black me-2 text-center">{item.username}</h4>
                     
                       {friends ? (
-                          <button onClick={(e) => removeFriend(e, item.username)} className="py-1 px-3 bg-red-500 text-white font-semibold rounded-full shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 transition ease-in-out duration-200 w-full">
-                            Remove
-                          </button>
+                          <div className='flex justify-between items-center w-full'>
+                            <button onClick={(e) => removeFriend(e, item.username)} className="py-1 px-3 bg-red-500 text-white font-semibold rounded-full shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 transition ease-in-out duration-200 w-[45%]">
+                              Remove
+                            </button>
+                            <button onClick={()=>{
+                              dispatch(reduxOppositeUsername(item.user1 === currentUsername ? item.user2 : item.user1))
+                              router.push('chat')
+                            }} className="py-1 px-3 bg-red-500 text-black font-semibold rounded-full shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300 transition ease-in-out duration-200 w-[45%]">
+                                Chat
+                            </button>
+                          </div>
                       )
                         : isRequested ? (
                           <button disabled className="py-1 px-3 bg-gray-400 text-white font-semibold rounded-full shadow-md cursor-not-allowed w-full">
