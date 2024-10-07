@@ -55,9 +55,9 @@ const config: Config = {
         '100%': { transform: 'translateX(0)' }, // Move to center
       },
       moveToCenter2: {
-        '0%': { transform: '-translateX(100%)', opacity: '0' }, // Initial position (off-screen)
+        '0%': { transform: 'translateX(0)', opacity: '0' }, // Initial position (off-screen)
         '50%': { opacity: '1' }, // Midway through the animation, make them visible
-        '100%': { transform: 'translateX(0)' }, // Move to center
+        '100%': { transform: 'translateX(100%)' }, // Move to center
       },
     },
   },
