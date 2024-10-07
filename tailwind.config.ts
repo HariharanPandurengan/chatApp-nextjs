@@ -30,6 +30,7 @@ const config: Config = {
       'show-element': 'showElement 1s forwards 1s',
       'justify-content-animation': 'justifyAnimation 1s ease-in-out forwards',
       'move-to-center': 'moveToCenter 1s ease-in-out forwards',
+      'move-to-center2': 'moveToCenter2 1s ease-in-out forwards',
     },
     keyframes: {
       spinOnce: {
@@ -50,6 +51,11 @@ const config: Config = {
       },
       moveToCenter: {
         '0%': { transform: 'translateX(100%)', opacity: '0' }, // Initial position (off-screen)
+        '50%': { opacity: '1' }, // Midway through the animation, make them visible
+        '100%': { transform: 'translateX(0)' }, // Move to center
+      },
+      moveToCenter2: {
+        '0%': { transform: '-translateX(100%)', opacity: '0' }, // Initial position (off-screen)
         '50%': { opacity: '1' }, // Midway through the animation, make them visible
         '100%': { transform: 'translateX(0)' }, // Move to center
       },
