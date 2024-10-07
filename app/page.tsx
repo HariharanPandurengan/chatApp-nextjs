@@ -71,7 +71,7 @@ export default function Login() {
         <div className='text-center mb-4'>
           <div className='flex justify-center items-center'>
             <h1 className='inline-block animate-move-to-center transform translate-x-full  text-red-500 leading-none tracking-tight m-0 p-0'>H</h1>
-            <h1 className='inline-block text-black aa animate-move-to-center2 transform translate-x-full  text-white-500 border boder-black leading-none tracking-tight m-0 p-0'>I</h1>
+            <h1 className='inline-block text-black animate-move-to-center2 transform translate-x-full  text-white-500 border boder-black leading-none tracking-tight m-0 p-0'>I</h1>
           </div>
           <small className='text-black text-center underline'>A Securied Chat App</small>
         </div>

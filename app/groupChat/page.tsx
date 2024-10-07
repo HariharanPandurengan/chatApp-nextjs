@@ -130,7 +130,7 @@ export default function GroupChat() {
                             height={48}
                         />
                     </div>
-                    <h2 className="text-lg font-medium">{groupName}</h2>
+                    <h2 className="text-lg text-black font-medium">{groupName}</h2>
                 </div>
             
                 <div className="chat-container" ref={chatContainerRef}>
@@ -146,14 +146,14 @@ export default function GroupChat() {
                                         <div className="w-full flex justify-end items-center">
                                             {/* <small className="text-xs font-light">you</small> */}
                                             <div key={item.id} className='message message-sent ms-2'>
-                                                <p className="text-xl font-medium">{messageContent}<small className="text-xs font-light ms-2">{item.mTime}</small></p>
+                                                <p className="text-xl text-black font-medium">{messageContent}<small className="text-xs text-black font-light ms-2">{item.mTime}</small></p>
                                             </div>
                                         </div>
                                         :
                                         <div className="w-full flex justify-start items-center">
                                             <div key={item.id} className='message message-received  ms-2'>
-                                                <small className='underline'>{item.from}</small>
-                                                <p className="text-xl font-medium">{messageContent}<small className="text-xs font-light ms-2">{item.mTime}</small></p>
+                                                <small className='underline text-black'>{item.from}</small>
+                                                <p className="text-xl text-black font-medium">{messageContent}<small className="text-xs text-black font-light ms-2">{item.mTime}</small></p>
                                             </div>
                                             {/* <small className="text-xs font-light ms-2">{opposite_person}</small> */}
                                         </div>
@@ -165,7 +165,7 @@ export default function GroupChat() {
                 </div>
                 <div className="sticky bottom-0 w-full shadow">
                     <div className="relative">
-                        <input onChange={(e)=>setRecentChat(e.target.value)} value={recentChat} placeholder="Type you message" className="w-full rounded-full border-2 p-2"/>
+                        <input onChange={(e)=>setRecentChat(e.target.value)} value={recentChat} placeholder="Type text-black you message" className="w-full rounded-full border-2 p-2"/>
                         <button onClick={(e)=>sendMessage(e)} className="absolute bottom-1 right-2 py-1 px-4 bg-green-600 text-white font-semibold rounded-full shadow-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out duration-200 w-1/7">Send</button>
                     </div>
                 </div>
