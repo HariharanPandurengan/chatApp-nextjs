@@ -165,7 +165,7 @@ export default function GroupChat() {
                 </div>
                 <div className="sticky bottom-0 w-full shadow">
                     <div className="relative">
-                        <input onChange={(e)=>setRecentChat(e.target.value)} value={recentChat} placeholder="Type text-black you message" className="w-full rounded-full border-2 p-2"/>
+                        <input onChange={(e)=>setRecentChat(e.target.value)} value={recentChat} placeholder="Type your message" className="w-full text-black rounded-full border-2 p-2"/>
                         <button onClick={(e)=>sendMessage(e)} className="absolute bottom-1 right-2 py-1 px-4 bg-green-600 text-white font-semibold rounded-full shadow-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out duration-200 w-1/7">Send</button>
                     </div>
                 </div>
