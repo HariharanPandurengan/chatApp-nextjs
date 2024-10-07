@@ -24,6 +24,11 @@ const config: Config = {
       lg: '1024px',
       xl: '1280px',
     },
+    textShadow: {
+      default: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+      md: '3px 3px 5px rgba(0, 0, 0, 0.3)',
+      lg: '4px 4px 6px rgba(0, 0, 0, 0.2)',
+    },
     animation: {
       'spin-once': 'spinOnce 1s ease-in-out 1', // 1 rotation in 1 second
       'spin-once2': 'spinOnce2 1s ease-in-out 1', // 1 rotation in 1 second
@@ -50,17 +55,32 @@ const config: Config = {
         '100%': { 'justify-content': 'center' },
       },
       moveToCenter: {
-        '0%': { transform: 'translateX(100%)', opacity: '0' }, // Initial position (off-screen)
-        '50%': { opacity: '1' }, // Midway through the animation, make them visible
-        '100%': { transform: 'translateX(0)' }, // Move to center
+        '0%': { transform: 'translateX(120%) rotateY(0deg) rotateX(0deg)', opacity: '0' }, 
+        '50%': { opacity: '1' }, 
+        '100%': { transform: 'translateX(0%) rotateY(360deg) rotateX(360deg)' }, 
       },
       moveToCenter2: {
-        '0%': { transform: 'translateX(0)', opacity: '0' }, // Initial position (off-screen)
-        '50%': { opacity: '1' }, // Midway through the animation, make them visible
-        '100%': { transform: 'translateX(100%)' }, // Move to center
+        '0%': { transform: 'translateX(-120%) rotate(360deg)', opacity: '0' }, 
+        '50%': { opacity: '1' }, 
+        '100%': { transform: 'translateX(0%) rotate(0deg)' }, 
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      const shadows = {
+        '.text-shadow': {
+          textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)',
+        },
+        '.text-shadow-md': {
+          textShadow: '3px 3px 5px rgba(0, 0, 0, 0.3)',
+        },
+        '.text-shadow-lg': {
+          textShadow: '4px 4px 6px rgba(0, 0, 0, 0.2)',
+        },
+      }
+      addUtilities(shadows, ['responsive', 'hover'])
+    },
+  ],
 };
 export default config;
