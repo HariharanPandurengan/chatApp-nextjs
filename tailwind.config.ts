@@ -27,6 +27,7 @@ const config: Config = {
     animation: {
       'spin-once': 'spinOnce 1s ease-in-out 1', // 1 rotation in 1 second
       'spin-once2': 'spinOnce2 1s ease forwards 1s', // 1 rotation in 1 second
+      'show-element': 'showElement 1s forwards 1s',
     },
     keyframes: {
       spinOnce: {
@@ -37,6 +38,10 @@ const config: Config = {
         '0%': { opacity: '0',transform: 'rotate(360deg)' },
         '1%': { opacity: '1' },
         '100%': { opacity: '1',transform: 'rotate(0deg)' },
+      },
+      showElement: {
+        '0%': { visibility: 'hidden', opacity: '0' },
+        '100%': { visibility: 'visible', opacity: '1' },
       },
     },
   },
