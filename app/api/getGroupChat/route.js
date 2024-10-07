@@ -32,19 +32,20 @@ export async function POST(req){
 
         // Helper function to format time in 'hh:mm AM/PM' format
         function formatTime(date) {
-            let hours = date.getHours();
-            const minutes = date.getMinutes();
-            const ampm = hours >= 12 ? 'PM' : 'AM';
-            
-            hours = hours % 12 || 12; // Convert to 12-hour format and handle midnight as 12
-            const minutesFormatted = minutes < 10 ? `0${minutes}` : minutes;
+            const options = {
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true,
+                timeZone: 'Asia/Kolkata' // Set to Indian Standard Time (IST)
+            };
         
-            return `${hours}:${minutesFormatted} ${ampm}`;
+            return date.toLocaleString('en-US', options);
         }
         
         // Helper function to format date in 'dd/mm/yyyy' format
         function formatDate(date) {
-            const day = date.getDate();
+            const istDate = new Date(date.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
+            const day = istDate.getDate();
             const month = date.getMonth() + 1; // Months are zero-based in JavaScript
             const year = date.getFullYear();
         
