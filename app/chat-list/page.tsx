@@ -11,6 +11,7 @@ import { reduxGroupIDandName } from '../../redux/store';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import io from 'socket.io-client';
+import CryptoJs from "crypto-js"
 
 let socket;
 
@@ -36,6 +37,7 @@ export default function ChatList() {
   const[groupChatCreation,setGroupChatCreation]=useState(false)
   const[newGroupMembers, setNewGroupMembers] = useState([]);
   const[chatOrder,setChatOrder] = useState([])
+ 
 
   const currentUsername = useSelector((state: RootState) => state.user.username);
   // const currentUsername = 'hari';
@@ -358,6 +360,8 @@ export default function ChatList() {
       });
     }
 
+    console.log(chatOrder)
+
     return(
       <section className="relative min-h-screen sm:flex w-full bg-gradient-to-br from-blue-50 to-indigo-100 sm:p-6 p-1 pt-7">
 
@@ -480,9 +484,9 @@ export default function ChatList() {
                     {
                       item.from === currentUsername 
                       ?
-                        <p className="text-sm text-gray-600">{'You : ' +item.lastChat}</p>
+                        <p className="text-sm text-gray-600">{'You : ' +CryptoJs.AES.decrypt(item.lastChat, "mes").toString(CryptoJs.enc.Utf8)}</p>
                       :
-                        <p className="text-sm text-gray-600">{item.from + ' : ' + item.lastChat}</p>
+                        <p className="text-sm text-gray-600">{item.from + ' : ' + CryptoJs.AES.decrypt(item.lastChat, "mes").toString(CryptoJs.enc.Utf8)}</p>
                     }
                   </div>
                   <div className="absolute right-3 bottom-2">
