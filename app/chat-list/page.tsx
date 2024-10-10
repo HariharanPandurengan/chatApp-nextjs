@@ -360,8 +360,6 @@ export default function ChatList() {
       });
     }
 
-    console.log(chatOrder)
-
     return(
       <section className="relative min-h-screen sm:flex w-full bg-gradient-to-br from-blue-50 to-indigo-100 sm:p-6 p-1 pt-7">
 
