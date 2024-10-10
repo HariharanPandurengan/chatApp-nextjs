@@ -3,12 +3,13 @@ import UserModel from "../../../models/userModel";
 import ReqModel from "../../../models/requestModel";
 import RequestedModel from "../../../models/requestedModel";
 import ChatOrderModel from "../../../models/chatOrderModel"
+import bcrypt from 'bcrypt';
 
 export async function POST(req){
     try {
         await connectMongo();
         const registerDetails = await req.json();
-        
+        const hashedPassword = await bcrypt.hash(registerDetails.password, 10);
         const userData = await UserModel.find({ username: registerDetails.username});
         if(userData.length === 1){
             return Response.json({message:'User already exist',status:false})
@@ -16,7 +17,7 @@ export async function POST(req){
         else{
             const user = new UserModel({
                 username: registerDetails.username,
-                password: registerDetails.password,
+                password: hashedPassword,
                 groups:[]
               });
           
@@ -50,3 +51,4 @@ export async function POST(req){
         return Response.json({message:error.message})
     }
 }
+
