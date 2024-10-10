@@ -1,9 +1,9 @@
 import connectMongo from "../../../utils/connectMongo";
 import FriendsModel from "../../../models/friendsModel"
 import ChatModel from "../../../models/chatModel"
+import ChatOrderModel from "../../../models/chatOrderModel"
 
-export async function POST(req,res){
-   
+export async function POST(req){
     try {
         await connectMongo();
         const reqDetails = await req.json();
@@ -23,6 +23,11 @@ export async function POST(req,res){
                   { $and: [{ user1: reqDetails.clickedUsername }, { user2: reqDetails.currentUsername }] }
                 ]
             })
+
+            await ChatOrderModel.updateOne(
+                { username :reqDetails.currentUsername },
+                { $pull : { userList : { username : reqDetails.clickedUsername }} }
+            )
       
             return Response.json({ status: true , message: 'Both are unfriended now' });
         } catch (error) {

@@ -1,8 +1,8 @@
 import connectMongo from "../../../utils/connectMongo";
 import ChatModel from "../../../models/chatModel"
+import ChatOrderModel from "../../../models/chatOrderModel"
 
-export async function POST(req,res){
-
+export async function POST(req){
     try {
         await connectMongo();
         const users = await req.json();
@@ -22,8 +22,7 @@ export async function POST(req,res){
         
         // Helper function to format date in 'dd/mm/yyyy' format
         function formatDate(date) {
-            const istDate = new Date(date.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
-            const day = istDate.getDate();
+            const day = date.getDate();
             const month = date.getMonth() + 1; // Months are zero-based in JavaScript
             const year = date.getFullYear();
         
@@ -46,15 +45,86 @@ export async function POST(req,res){
         newChat.mDate = formatDate(currentDate);
 
         await ChatModel.updateOne(
-            { $or: [
-                { $and: [{ user1: users.user }, { user2: users.oppositeUser }] },
-                { $and: [{ user1: users.oppositeUser }, { user2: users.user }] }
-              ]
-            },
-            {
-                $push: { chat: newChat },
-                $set: { counter : chatObj.counter + 1 }
-            });
+        { $or: [
+            { $and: [{ user1: users.user }, { user2: users.oppositeUser }] },
+            { $and: [{ user1: users.oppositeUser }, { user2: users.user }] }
+            ]
+        },
+        {
+            $push: { chat: newChat },
+            $set: { counter : chatObj.counter + 1 }
+        });
+
+        const CurrentUserChatOrder = {
+            username : users.oppositeUser,
+            from : users.user,
+            lastChat : newChat.chat,
+            lastChatDate : formatDate(currentDate),
+            lastChatTime : formatTime(currentDate)
+        }
+
+        const OppositeUserChatOrder = {
+            username : users.user,
+            from : users.user,
+            lastChat : newChat.chat,
+            lastChatDate : formatDate(currentDate),
+            lastChatTime : formatTime(currentDate)
+        }
+        
+        const isOppositePresent = await ChatOrderModel.find({
+            username: users.user,
+            userList: {
+              $elemMatch: { username: users.oppositeUser }
+            }
+        });
+
+        const isUserPresent = await ChatOrderModel.find({
+            username: users.oppositeUser,
+            userList: {
+              $elemMatch: { username: users.user }
+            }
+        });
+
+        if (isOppositePresent.length !== 0) {
+          
+            await ChatOrderModel.updateOne(
+              { username: users.user },
+              { $pull: { userList: { username: users.oppositeUser } } }
+            );
+          
+           
+            await ChatOrderModel.updateOne(
+              { username: users.user },
+              { $push: { userList: CurrentUserChatOrder } }
+            );
+        } else {
+            
+            await ChatOrderModel.updateOne(
+              { username: users.user },
+              { $push: { userList: CurrentUserChatOrder } }
+            );
+        }
+    
+        if (isUserPresent.length !== 0) {
+            
+            await ChatOrderModel.updateOne(
+                { username: users.oppositeUser },
+                { $pull: { userList: { username: users.user } } }
+            );
+        
+        
+            await ChatOrderModel.updateOne(
+                { username: users.oppositeUser },
+                { $push: { userList: OppositeUserChatOrder } }
+            );
+        } else {
+       
+            await ChatOrderModel.updateOne(
+                { username: users.oppositeUser },
+                { $push: { userList: OppositeUserChatOrder } }
+            );
+        }
+        
 
         return Response.json({status:true})
     } catch (error) {

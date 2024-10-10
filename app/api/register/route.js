@@ -2,15 +2,12 @@ import connectMongo from "../../../utils/connectMongo";
 import UserModel from "../../../models/userModel";
 import ReqModel from "../../../models/requestModel";
 import RequestedModel from "../../../models/requestedModel";
-import bcrypt from 'bcrypt';
+import ChatOrderModel from "../../../models/chatOrderModel"
 
-export async function POST(req,res){
-    
+export async function POST(req){
     try {
         await connectMongo();
         const registerDetails = await req.json();
-
-        const hashedPassword = await bcrypt.hash(registerDetails.password, 10);
         
         const userData = await UserModel.find({ username: registerDetails.username});
         if(userData.length === 1){
@@ -19,7 +16,7 @@ export async function POST(req,res){
         else{
             const user = new UserModel({
                 username: registerDetails.username,
-                password: hashedPassword,
+                password: registerDetails.password,
                 groups:[]
               });
           
@@ -38,6 +35,14 @@ export async function POST(req,res){
             });
           
             await requsted.save();
+
+            const chatOrder = new ChatOrderModel({
+                username : registerDetails.username,
+                userList : [],
+                groupList : [],
+            })
+
+            await chatOrder.save();
 
             return Response.json({message:'User inserted successfully'+savedUser,status:true})
         }
