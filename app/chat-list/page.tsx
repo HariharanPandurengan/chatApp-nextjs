@@ -60,7 +60,7 @@ export default function ChatList() {
 
   function fetchChatOrder(){
     axios
-    .post(process.env.NEXT_PUBLIC_API_URL+'/chatOrder',{ username : currentUsername })
+    .post('/api/chatOrder',{ username : currentUsername })
     .then((response) => {
       setChatOrder(response.data.chatOrder)
     })
