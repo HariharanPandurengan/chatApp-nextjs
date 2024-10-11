@@ -508,7 +508,7 @@ export default function ChatList() {
                         <p className="text-sm text-gray-600">{item.from + ' : ' + CryptoJs.AES.decrypt(item.lastChat, "mes").toString(CryptoJs.enc.Utf8)}</p>
                     }
                   </div>
-                  <div className="absolute sm:right-3 sm:bottom-2 left-2 bottom-0">
+                  <div className="absolute sm:right-3 sm:bottom-2 left-0 bottom-0 w-full text-center ">
                     <p className="text-xs text-gray-500">{item.lastChatDate+' | '+item.lastChatTime}</p>
                   </div>
                 </div>
