@@ -62,7 +62,7 @@ export default function ChatList() {
           setLoading(false);
         }, 2000);
       });
-      
+
     return () => {
       if (socket) {
         socket.disconnect();
@@ -418,7 +418,7 @@ export default function ChatList() {
               const alreadyRequestsbyOppositePerson = requestsList.some((list) => list.username === item.username);
               return (
                 <div key={item.username} className="bg-white mt-3 lg:flex items-center justify-between rounded-lg p-3 shadow-md hover:shadow-xl transition transform hover:-translate-y-1">
-                  <h4 className="font-bold me-2 text-center">{item.username}</h4>
+                  <h4 className="font-bold me-2 text-center text-black">{item.username}</h4>
                 
                   {friends ? (
                       <button onClick={(e) => removeFriend(e, item.username)} className="py-1 px-3 bg-red-500 text-white font-semibold rounded-full shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 transition ease-in-out duration-200 w-full">
