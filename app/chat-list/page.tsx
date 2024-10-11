@@ -370,19 +370,10 @@ export default function ChatList() {
         currentUser: currentUsername,
       });
     }
-
-    function load(bool){
-      setLoading(bool)
-      return ''
-    }
-
+console.log(chatOrder)
     return(
       <section className="relative min-h-screen sm:flex w-full bg-gradient-to-br from-blue-50 to-indigo-100 sm:p-6 p-1 pt-7">
-        {
-          (() => {
-            return load(true);
-          })()
-        }
+    
         {
           loading && 
           <div className="loading-container">
@@ -721,12 +712,6 @@ export default function ChatList() {
           <button onClick={handleSwipeUp} className="ml-4">Dismiss</button>
         </div>
       )}
-
-        {
-          (() => {
-            return load(false);
-          })()
-        }
     </section>
   )
 }
