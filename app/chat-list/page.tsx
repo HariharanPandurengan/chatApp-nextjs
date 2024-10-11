@@ -70,6 +70,7 @@ export default function ChatList() {
   }, [currentUsername]);
 
   function fetchChatOrder(){
+    setLoading(true)
     axios
     .post('/api/chatOrder',{ username : currentUsername })
     .then((response) => {
@@ -77,7 +78,10 @@ export default function ChatList() {
     })
     .catch((err) => {
       console.log(err.message);
-    });
+    })
+    .finally(()=>{
+      setLoading(false)
+    })
   }
 
   //notification setUp
@@ -370,7 +374,7 @@ export default function ChatList() {
         currentUser: currentUsername,
       });
     }
-console.log(chatOrder)
+
     return(
       <section className="relative min-h-screen sm:flex w-full bg-gradient-to-br from-blue-50 to-indigo-100 sm:p-6 p-1 pt-7">
     
