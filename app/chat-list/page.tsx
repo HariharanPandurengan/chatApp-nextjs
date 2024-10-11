@@ -38,11 +38,27 @@ export default function ChatList() {
   const[newGroupMembers, setNewGroupMembers] = useState([]);
   const[chatOrder,setChatOrder] = useState([])
   const [loading, setLoading] = useState(false);
+  const [count, setCount] = useState(0);
 
   const currentUsername = useSelector((state: RootState) => state.user.username);
   // const currentUsername = 'hari';
   const dispatch = useAppDispatch();
   const router = useRouter()
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCount((prevCount) => {
+        if (prevCount < 20) {
+          return prevCount + 1;
+        } else {
+          clearInterval(interval); 
+          return prevCount;
+        }
+      });
+    }, 1000); 
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     setLoading(true); 
@@ -377,10 +393,12 @@ export default function ChatList() {
     }
 
     useEffect(()=>{
-      setLoading(true);
-      setTimeout(() => {
-        setLoading(false)
-      }, 1000);
+      if(count <= 10){
+        setLoading(true);
+        setTimeout(() => {
+          setLoading(false)
+        }, 1000);
+      }
     },[chatOrder,friendsList])
 
     return(
