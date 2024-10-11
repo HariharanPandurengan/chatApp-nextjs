@@ -12,7 +12,6 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import io from 'socket.io-client';
 import CryptoJs from "crypto-js"
-import { setTimeout } from 'timers/promises';
 
 let socket;
 
@@ -373,10 +372,12 @@ export default function ChatList() {
     }
 
     useEffect(()=>{
-      setLoading(true)
-      setTimeout(()=>{
-        setLoading(false);
-      },1000)
+      setLoading(true);
+      const timmer = setTimeout(() => {
+        setLoading(false)
+      }, 1000);
+
+      return clearTimeout(timmer)
     },[chatOrder,friendsList])
 
     return(
