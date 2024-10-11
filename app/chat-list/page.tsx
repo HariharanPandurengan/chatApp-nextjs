@@ -60,8 +60,9 @@ export default function ChatList() {
       .finally(() => {
         setTimeout(() => {
           setLoading(false);
-        }, 1000);
+        }, 2000);
       });
+      
     return () => {
       if (socket) {
         socket.disconnect();
