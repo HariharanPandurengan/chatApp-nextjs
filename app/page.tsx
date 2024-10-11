@@ -13,6 +13,8 @@ export default function Login() {
   const[username,setUsername] = useState('');
   const[password,setPassword] = useState('');
   const[confirmPassword,setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const[loging,setLoging] = useState(false)
 
   const dispatch = useAppDispatch();
 
@@ -21,6 +23,7 @@ export default function Login() {
   // });
 
   function login(e){
+    setLoging(true);
     e.preventDefault();
    axios
       .post('/api/login',{username:username,password:password})
@@ -40,6 +43,7 @@ export default function Login() {
   }
 
   function register(e){
+    setLoading(true);
     e.preventDefault();
     if(password !== confirmPassword){
       alert('Password & Confirm password not matching')
@@ -52,6 +56,7 @@ export default function Login() {
             alert('Username Already Exist');
           }
           else{
+            setLoading(false);
             alert('Registered Successfully');
             setLog(true)
             setUsername('')
@@ -67,6 +72,28 @@ export default function Login() {
 
   return (
     <section className="min-h-screen w-full p-8 bg-gradient-to-r from-blue-500 to-teal-500 flex items-center justify-center">
+
+        {
+          loging && 
+          <div className="loading-container">
+            <div className='bg-white flex items-center p-2 px-4'>
+              <h2 className='me-2 text-black-500'>Loging...</h2>
+              <div className="spinner"></div>
+            </div>
+          </div>
+        }
+
+        {
+          loading && 
+          <div className="loading-container">
+            <div className='bg-white flex items-center p-2 px-4'>
+              <h2 className='me-2 text-black-500'>Registering...</h2>
+              <div className="spinner"></div>
+            </div>
+          </div>
+        }
+
+
       <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
         <div className='text-center mb-4'>
           <div className='flex justify-center items-center'>

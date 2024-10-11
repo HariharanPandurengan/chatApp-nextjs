@@ -37,7 +37,7 @@ export default function ChatList() {
   const[groupChatCreation,setGroupChatCreation]=useState(false)
   const[newGroupMembers, setNewGroupMembers] = useState([]);
   const[chatOrder,setChatOrder] = useState([])
- 
+  const [loading, setLoading] = useState(false);
 
   const currentUsername = useSelector((state: RootState) => state.user.username);
   // const currentUsername = 'hari';
@@ -45,12 +45,21 @@ export default function ChatList() {
   const router = useRouter()
 
   useEffect(() => {
-    fetchRequestsList();
-    fetchRequestedList();
-    fetchFriendsList();
-    fetchGroups()
-    socketInitializer(); 
-    fetchChatOrder();
+    setLoading(true); 
+
+    Promise.all([
+      fetchRequestsList(),
+      fetchRequestedList(),
+      fetchFriendsList(),
+      fetchGroups(),
+      fetchChatOrder(),
+    ])
+      .then(() => {
+        socketInitializer();
+      })
+      .finally(() => {
+        setLoading(false);
+      });
     return () => {
       if (socket) {
         socket.disconnect();
@@ -362,6 +371,16 @@ export default function ChatList() {
 
     return(
       <section className="relative min-h-screen sm:flex w-full bg-gradient-to-br from-blue-50 to-indigo-100 sm:p-6 p-1 pt-7">
+
+        {
+          loading && 
+          <div className="loading-container">
+            <div className='bg-white flex items-center p-2 px-4'>
+              <h2 className='me-2 text-black-500'>Loading...</h2>
+              <div className="spinner"></div>
+            </div>
+          </div>
+        }
 
       <div className="fixed z-50 sm:z-0 top-2 left-1/2 w-[95%] transform -translate-x-1/2 sm:relative sm:top-auto sm:left-auto sm:transform-none sm:w-1/4 border-2 border-gray-200 sm:me-2 p-4 rounded-xl bg-white shadow-lg">
         <input 

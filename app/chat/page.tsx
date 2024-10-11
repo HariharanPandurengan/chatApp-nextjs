@@ -16,12 +16,14 @@ export default function Chat() {
     const[recentChat,setRecentChat] = useState("")
     const[ftf,setFtf] = useState(false)
     const[onlineCheck,setOnlineCheck] = useState(false)
+    const [loading, setLoading] = useState(false);
 
     const user = useSelector((state: RootState) => state.user.username);
     const opposite_person =  useSelector((state: RootState) => state.user.oppositeUsername);
 
     const chatContainerRef = useRef(null);
     const ftfRef = useRef(ftf);
+    const debounceRef = useRef(null);
 
     useEffect(() => {
       ftfRef.current = ftf; // Update the ref whenever ftf changes
@@ -57,9 +59,17 @@ export default function Chat() {
     }
 
     useEffect(()=>{
-        makeSeen();
-        getChat();
-        socketInitializer();
+        setLoading(true);
+        Promise.all([
+          makeSeen(),
+          getChat(),
+        ])
+        .then(() => {
+          socketInitializer();
+        })
+        .finally(() => {
+          setLoading(false);
+        });
         return () => {
           if (socket) {
               socket.disconnect();
@@ -126,14 +136,18 @@ export default function Chat() {
         opposite_user: opposite_person,
       });
 
-      socket.on('onlineCheck', (data:any) => {
-        if(data.check){
-          setOnlineCheck(true)
+      socket.on('onlineCheck', (data: any) => {
+        if (debounceRef.current) {
+          clearTimeout(debounceRef.current); // Clear the previous timeout if it exists
         }
-        else{
-          setOnlineCheck(false)
-        }
-
+  
+        debounceRef.current = setTimeout(() => {
+          if (data.check) {
+            setOnlineCheck(true);
+          } else {
+            setOnlineCheck(false);
+          }
+        }, 2000); 
       });
     }
 
@@ -176,6 +190,17 @@ export default function Chat() {
     }
     return(
         <div className="w-full bg-gradient-to-b from-yellow-200 to-white-100  min-h-screen sm:pt-1 p-0">
+
+        {
+          loading && 
+          <div className="loading-container">
+            <div className='bg-white flex items-center p-2 px-4'>
+              <h2 className='me-2 text-black-500'>Loading...</h2>
+              <div className="spinner"></div>
+            </div>
+          </div>
+        }
+
             <div className="relative chat-div w-full">
               <div className="sticky top-0 left-0 w-full flex items-center space-x-4 p-4 bg-gray-300 rounded mb-4">
                 <div className='flex items-center'>
