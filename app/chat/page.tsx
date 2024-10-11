@@ -69,7 +69,9 @@ export default function Chat() {
           socketInitializer();
         })
         .finally(() => {
-          setLoading(false);
+          setTimeout(() => {
+            setLoading(false);
+          }, 1000);
         });
         return () => {
           if (socket) {
@@ -195,7 +197,7 @@ export default function Chat() {
     }
     return(
         <div className="w-full bg-gradient-to-b from-yellow-200 to-white-100  min-h-screen sm:pt-1 p-0">
-
+          
         {
           loading && 
           <div className="loading-container">

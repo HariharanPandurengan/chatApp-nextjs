@@ -58,7 +58,9 @@ export default function ChatList() {
         socketInitializer();
       })
       .finally(() => {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000);
       });
     return () => {
       if (socket) {
@@ -488,7 +490,7 @@ export default function ChatList() {
                 <div onClick={()=>{
                   dispatch(reduxOppositeUsername(item.username))
                   router.push('chat')
-                }} key={item.username} className="relative border border-gray-200 rounded-lg shadow-md bg-white p-4 flex items-center mb-4 hover:bg-indigo-50 hover:shadow-lg transition">
+                }} key={item.username} className="relative border border-gray-200 rounded-lg shadow-md bg-white p-4 pb-5 sm:pb-4 flex items-center mb-4 hover:bg-indigo-50 hover:shadow-lg transition">
                   <Image 
                     src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-social-media-user-vector-default-avatar-profile-icon-social-media-user-vector-portrait-176194876.jpg" 
                     alt="Profile Avatar"
@@ -506,7 +508,7 @@ export default function ChatList() {
                         <p className="text-sm text-gray-600">{item.from + ' : ' + CryptoJs.AES.decrypt(item.lastChat, "mes").toString(CryptoJs.enc.Utf8)}</p>
                     }
                   </div>
-                  <div className="absolute right-3 bottom-2">
+                  <div className="absolute sm:right-3 sm:bottom-2 left-2 bottom-0">
                     <p className="text-xs text-gray-500">{item.lastChatDate+' | '+item.lastChatTime}</p>
                   </div>
                 </div>
