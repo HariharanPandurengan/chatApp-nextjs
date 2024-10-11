@@ -17,6 +17,7 @@ export default function Chat() {
     const[ftf,setFtf] = useState(false)
     const[onlineCheck,setOnlineCheck] = useState(false)
     const [loading, setLoading] = useState(false);
+    const[sending,setSending] = useState(false)
 
     const user = useSelector((state: RootState) => state.user.username);
     const opposite_person =  useSelector((state: RootState) => state.user.oppositeUsername);
@@ -152,6 +153,7 @@ export default function Chat() {
     }
 
     function sendMessage(e){
+      setSending(true)
       e.preventDefault();
 
       socket.emit('opposite_user_in_ftf', {
@@ -186,7 +188,10 @@ export default function Chat() {
         })
         .catch((err) => {
           console.log(err.message);
-      });
+        })
+        .finally(() => {
+          setSending(false);
+        });
     }
     return(
         <div className="w-full bg-gradient-to-b from-yellow-200 to-white-100  min-h-screen sm:pt-1 p-0">
@@ -274,7 +279,13 @@ export default function Chat() {
                 <div className="sticky z-50 bottom-0 w-full shadow">
                     <div className="relative">
                         <input onChange={(e)=>setRecentChat(e.target.value)} value={recentChat} placeholder="Type you message" className="w-full rounded-full border-2 p-2 text-black"/>
-                        <button onClick={(e)=>sendMessage(e)} className="absolute bottom-1 right-2 py-1 px-4 bg-green-600 text-white font-semibold rounded-full shadow-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out duration-200 w-1/7">Send</button>
+                        {
+                          sending ?
+                            <button disabled className="absolute bottom-1 right-2 py-1 px-4 bg-gray-600 text-white font-semibold rounded-full shadow-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 transition ease-in-out duration-200 w-1/7">Sending...</button>
+                          :
+                            <button onClick={(e)=>sendMessage(e)} className="absolute bottom-1 right-2 py-1 px-4 bg-green-600 text-white font-semibold rounded-full shadow-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition ease-in-out duration-200 w-1/7">Send</button>
+                        }
+                        
                     </div>
                 </div>
             </div>
