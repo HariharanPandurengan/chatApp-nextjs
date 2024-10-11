@@ -373,11 +373,9 @@ export default function ChatList() {
 
     useEffect(()=>{
       setLoading(true);
-      const timmer = setTimeout(() => {
+      setTimeout(() => {
         setLoading(false)
       }, 1000);
-
-      return clearTimeout(timmer)
     },[chatOrder,friendsList])
 
     return(
