@@ -77,7 +77,7 @@ export default function Login() {
           loging && 
           <div className="loading-container">
             <div className='bg-white flex items-center p-2 px-4'>
-              <h2 className='me-2 text-black-500'>Loging...</h2>
+              <h2 className='me-2 text-black'>Loging...</h2>
               <div className="spinner"></div>
             </div>
           </div>
