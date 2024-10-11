@@ -164,6 +164,7 @@ export default function ChatList() {
   };
 
   const fetchFriendsList = () => {
+    setLoading(true)
     axios
     .get("/api/getFriends", {
       params: { username: currentUsername },
@@ -186,7 +187,10 @@ export default function ChatList() {
     })
     .catch((err) => {
       console.log(err.message);
-    });
+    })
+    .finally(()=>{
+      setLoading(false)
+    })
   }; 
 
   const fetchGroups = () => {
