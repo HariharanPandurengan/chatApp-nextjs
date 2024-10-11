@@ -209,7 +209,7 @@ export default function Chat() {
         }
 
             <div className="relative chat-div w-full">
-              <div className="sticky top-0 left-0 w-full flex items-center space-x-4 p-4 bg-gray-300 rounded mb-4">
+              <div className="sticky z-50 top-0 left-0 w-full flex items-center space-x-4 p-4 bg-gray-300 rounded mb-4">
                 <div className='flex items-center'>
                     <div className="w-12 h-12 rounded-full overflow-hidden me-2">
                           <Image 
