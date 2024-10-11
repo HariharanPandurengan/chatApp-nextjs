@@ -695,7 +695,7 @@ export default function ChatList() {
   
       {showNotification && (
         <div
-          className="fixed top-0 left-1/2 transform -translate-x-1/2  bg-green-500 text-white py-3 px-4 shadow-lg flex justify-between items-center transition-transform duration-500 transform w-1/2"
+          className="fixed top-0 left-1/2 transform -translate-x-1/2  bg-green-500 text-white py-3 px-4 shadow-lg flex justify-between items-center transition-transform duration-500 transform sm:w-1/2 w-[90%]"
           style={{ zIndex: 1000 }}
         >
           <span>{currentNotification}</span>
@@ -705,7 +705,7 @@ export default function ChatList() {
 
       {showChatNotification && (
         <div
-          className="fixed top-0 left-1/2 transform -translate-x-1/2  bg-green-500 text-white py-3 px-4 shadow-lg flex justify-between items-center transition-transform duration-500 transform w-1/2"
+          className="fixed top-0 left-1/2 transform -translate-x-1/2  bg-green-500 text-white py-3 px-4 shadow-lg flex justify-between items-center transition-transform duration-500 transform sm:w-1/2 w-[90%]"
           style={{ zIndex: 1000 }}
         >
           <span>{notfiFrom +' : ' +currentNotification.slice(0, 10)+'...'}</span>
