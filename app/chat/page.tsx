@@ -18,6 +18,13 @@ export default function Chat() {
     const[onlineCheck,setOnlineCheck] = useState(false)
     const [loading, setLoading] = useState(false);
     const[sending,setSending] = useState(false)
+    const[showNotification, setShowNotification] = useState(false);
+    const[showChatNotification, setShowChatNotification] = useState(false);
+    const[showGroupChatNotification, setShowGroupChatNotification] = useState(false);
+    const[showGroupChatCreationNotification, setShowGroupChatCreationNotification] = useState(false);
+    const[currentNotification,setCurrentNotofication] = useState("")
+    const[notfiFrom,setNotfiFrom] = useState('')
+    const[notfiFromGroup,setNotfiFromGroup] = useState('')
 
     const user = useSelector((state: RootState) => state.user.username);
     const opposite_person =  useSelector((state: RootState) => state.user.oppositeUsername);
@@ -29,6 +36,46 @@ export default function Chat() {
     useEffect(() => {
       ftfRef.current = ftf; // Update the ref whenever ftf changes
     }, [ftf]);
+
+    //notification setUp
+  const triggerNotification = () => {
+    setShowNotification(true);
+    // Automatically hide after 5 seconds
+    setTimeout(() => {
+      setShowNotification(false);
+    }, 5000);
+  };
+
+  const triggerChatNotification = () => {
+    setShowChatNotification(true);
+    // Automatically hide after 5 seconds
+    setTimeout(() => {
+      setShowChatNotification(false);
+    }, 5000);
+  };
+
+  const triggerGroupChatNotification = () => {
+    setShowGroupChatNotification(true);
+    // Automatically hide after 5 seconds
+    setTimeout(() => {
+      setShowGroupChatNotification(false);
+    }, 5000);
+  };
+
+  const triggerGroupChatCreationNotification = () => {
+    setShowGroupChatCreationNotification(true);
+    // Automatically hide after 5 seconds
+    setTimeout(() => {
+      setShowGroupChatCreationNotification(false);
+    }, 5000);
+  };
+
+  const handleSwipeUp = () => {
+    setShowNotification(false);
+    setShowChatNotification(false);
+    setShowGroupChatNotification(false);
+    setShowGroupChatCreationNotification(false)
+  };
 
     function getChat(){
       axios
@@ -97,14 +144,25 @@ export default function Chat() {
       });
 
       socket.on('notification', (data:any) => {
-        if(data.message.includes("Your request has been accepted by") || data.message.includes("You has been removed from friend list by")){
-          alert(data.message)
+        if((data.message && data.message.includes("Your request has been accepted by")) || (data.message && data.message.includes("You are removed from friend list by" )) || (data.message && data.message.includes("you have a new friend request" ))){
+          setCurrentNotofication(data.message)
+          triggerNotification()
         }
         else if(data.for === "new chat"){
-          getChat();
-          if(data.from !== opposite_person){
-            alert(data.from +' : '+ data.message)
-          }
+          setNotfiFrom(data.from)
+          setCurrentNotofication(data.message)
+          triggerChatNotification()
+        }
+        else if(data.for === "group chat"){
+          setNotfiFromGroup(data.groupName)
+          setNotfiFrom(data.from)
+          setCurrentNotofication(data.message)
+          triggerGroupChatNotification()
+        }
+        else if(data.for === "new group"){
+          setNotfiFromGroup(data.groupName)
+          setNotfiFrom(data.from)
+          triggerGroupChatCreationNotification()
         }
       });
 
@@ -291,6 +349,46 @@ export default function Chat() {
                     </div>
                 </div>
             </div>
+
+            {showNotification && (
+              <div
+                className="fixed top-0 left-1/2 transform -translate-x-1/2  bg-green-500 text-white py-3 px-4 shadow-lg flex justify-between items-center transition-transform duration-500 transform sm:w-1/2 w-[90%]"
+                style={{ zIndex: 1000 }}
+              >
+                <span>{currentNotification}</span>
+                <button onClick={handleSwipeUp} className="ml-4">Dismiss</button>
+              </div>
+            )}
+
+            {showChatNotification && (
+              <div
+                className="fixed top-0 left-1/2 transform -translate-x-1/2  bg-green-500 text-white py-3 px-4 shadow-lg flex justify-between items-center transition-transform duration-500 transform sm:w-1/2 w-[90%]"
+                style={{ zIndex: 1000 }}
+              >
+                <span>{notfiFrom +' : ' +currentNotification.slice(0, 10)+'...'}</span>
+                <button onClick={handleSwipeUp} className="ml-4">Dismiss</button>
+              </div>
+            )}
+
+            {showGroupChatNotification && (
+              <div
+                className="fixed top-0 left-1/2 transform -translate-x-1/2  bg-green-500 text-white py-3 px-4 shadow-lg flex justify-between items-center transition-transform duration-500 transform w-1/2"
+                style={{ zIndex: 1000 }}
+              >
+                <span>{'Group : '+notfiFromGroup+ ' | '+ notfiFrom +' : '+currentNotification.slice(0, 10)+'...'}</span>
+                <button onClick={handleSwipeUp} className="ml-4">Dismiss</button>
+              </div>
+            )}
+
+            {showGroupChatCreationNotification && (
+              <div
+                className="fixed top-0 left-1/2 transform -translate-x-1/2  bg-green-500 text-white py-3 px-4 shadow-lg flex justify-between items-center transition-transform duration-500 transform w-1/2"
+                style={{ zIndex: 1000 }}
+              >
+                <span>{notfiFrom + ' | ' +'Created Group : '+notfiFromGroup}</span>
+                <button onClick={handleSwipeUp} className="ml-4">Dismiss</button>
+              </div>
+            )}
         </div>       
     )
 }

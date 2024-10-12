@@ -98,7 +98,6 @@ export default function ChatList() {
   }
 
   //notification setUp
-
   const triggerNotification = () => {
     setShowNotification(true);
     // Automatically hide after 5 seconds
@@ -136,23 +135,6 @@ export default function ChatList() {
     setShowChatNotification(false);
     setShowGroupChatNotification(false);
   };
-
-  useEffect(() => {
-    if (showNotification) {
-      fetchFriendsList();
-      const handleTouchMove = (e) => {
-        if (e.changedTouches[0].clientY < 50) {
-          handleSwipeUp(); // Detect swipe up gesture
-        }
-      };
-      window.addEventListener("touchmove", handleTouchMove);
-
-      // Cleanup the event listener when notification disappears
-      return () => {
-        window.removeEventListener("touchmove", handleTouchMove);
-      };
-    }
-  }, [showNotification]);
 
   const fetchRequestedList = () => {
     axios
