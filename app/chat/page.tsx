@@ -152,6 +152,7 @@ export default function Chat() {
           setNotfiFrom(data.from)
           setCurrentNotofication(data.message)
           triggerChatNotification()
+          getChat()
         }
         else if(data.for === "group chat"){
           setNotfiFromGroup(data.groupName)
