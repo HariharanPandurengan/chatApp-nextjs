@@ -149,10 +149,14 @@ export default function Chat() {
           triggerNotification()
         }
         else if(data.for === "new chat"){
-          setNotfiFrom(data.from)
-          setCurrentNotofication(data.message)
-          triggerChatNotification()
-          getChat()
+          if(data.from !== opposite_person){
+            setNotfiFrom(data.from)
+            setCurrentNotofication(data.message)
+            triggerChatNotification()
+          }
+          else{
+            getChat()
+          }
         }
         else if(data.for === "group chat"){
           setNotfiFromGroup(data.groupName)
